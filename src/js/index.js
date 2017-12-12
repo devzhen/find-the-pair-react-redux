@@ -1,9 +1,9 @@
 import ReactDOM from 'react-dom';
 import React from "react";
 
-import TabbedWindow from "./components/tabbed-window";
+import GameWindow from "./components/game-window";
 
 ReactDOM.render(
-    <TabbedWindow/>,
+    <GameWindow/>,
     document.getElementById('component')
 );
