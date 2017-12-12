@@ -1,14 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import TabList from "./tab-list";
-import Tab from "./tab";
-import TabContent from "./tab-content";
+import TabList from "./tabs/tab-list";
+import Tab from "./tabs/tab";
+import TabContent from "./tabs/tab-content";
 
 export default class GameWindow extends React.Component {
 
     render() {
 
         return (
+
             <div className="tabbed-window"
                  style={{width: this.props.width + 'px', height: this.props.height + 'px'}}
                  onClick={GameWindow.clickHandler}>
