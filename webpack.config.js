@@ -3,7 +3,7 @@ console.log('DEVELOPMENT MODE - ' + DEV_MODE);
 
 let config = {
     entry: [
-        "babel-polyfill",
+        // "babel-polyfill",
         "./src/js/index.js",
     ],
     // devtool: ENV === "dev" ? "source-map" : false,

@@ -1,0 +1,35 @@
+.tabbed-window {
+    display: flex;
+    flex-direction: column;
+
+    border: thin solid black;
+    border-radius: 20px;
+}
+
+.tab-list, .tab-content {
+    display: flex;
+}
+
+.tab-list > a:first-child {
+    border-top-left-radius: 20px
+}
+
+.tab-list > a:last-child{
+    border-top-right-radius: 20px
+}
+
+.tab {
+    flex-grow: 2;
+
+    padding: 2%;
+    border: thin solid black;
+    text-align: center;
+    text-decoration: none;
+    color: black;
+
+    font-family: Verdana, Geneva, sans-serif;
+}
+
+.tab-active {
+    background-color: lightgray;
+}
