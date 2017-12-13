@@ -10,7 +10,7 @@ export default class GameFieldPanel extends React.Component {
         return (
             <div className="game-field-panel">
 
-                <GameField cols={6} rows={6}/>
+                <GameField/>
 
                 <GameFieldControls/>
             </div>

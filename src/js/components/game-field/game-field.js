@@ -8,11 +8,16 @@ export default class GameField extends React.Component {
     constructor(props) {
         super(props);
 
+        /*Кол-во столбцов игрового поля*/
         this.cols = this.props.cols;
+
+        /*Кол-во строк игрового поля*/
         this.rows = this.props.rows;
 
+        /*Оптимизировать размер игрового поля*/
         this.optimizeGameFieldSize();
     }
+
 
     render() {
         return (
@@ -48,16 +53,23 @@ export default class GameField extends React.Component {
     /**
      * Оптимизировать размер игрового поля
      */
-    optimizeGameFieldSize(){
+    optimizeGameFieldSize() {
 
+        let cellCount = this.rows * this.cols;
+
+        while (cellCount % 2 !== 0) {
+            this.cols++;
+
+            cellCount = this.rows * this.cols;
+        }
     }
 
 }
 
 GameField.propTypes = {
-    rows: PropTypes.number.isRequired,
-    cols: PropTypes.number.isRequired,
-    images: PropTypes.array.isRequired
+    rows: PropTypes.number.isRequired,      /*Кол-во строк игрового поля*/
+    cols: PropTypes.number.isRequired,      /*Кол-во столбцов игрового поля*/
+    images: PropTypes.array.isRequired      /*Массив с путями к изображениям*/
 };
 
 GameField.defaultProps = {
