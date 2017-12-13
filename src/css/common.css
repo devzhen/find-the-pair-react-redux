@@ -1,3 +1,7 @@
+body {
+    font-family: Verdana, Geneva, sans-serif;
+}
+
 .disable-content {
     pointer-events: none;
 }

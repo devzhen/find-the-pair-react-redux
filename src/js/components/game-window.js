@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import TabList from "./tabs/tab-list";
 import Tab from "./tabs/tab";
 import TabContent from "./tabs/tab-content";
+import GameField from "./game-field/game-field-panel";
 
 export default class GameWindow extends React.Component {
 
@@ -20,7 +21,9 @@ export default class GameWindow extends React.Component {
                     <Tab id={3} textContent="Records"/>
                 </TabList>
 
-                <TabContent tabId={1} active>Game</TabContent>
+                <TabContent tabId={1} active>
+                    <GameField/>
+                </TabContent>
                 <TabContent tabId={2}>Config</TabContent>
                 <TabContent tabId={3}>Records</TabContent>
 
