@@ -7,10 +7,20 @@ import GameField from "./game-field";
 export default class GameFieldPanel extends React.Component {
 
     render() {
+
+        let images = [
+            "../img/bridge.jpg",
+            "../img/cat.jpg",
+            "../img/dog.jpg",
+            "../img/horse.jpg",
+            "../img/moto.jpg",
+            "../img/shoes.jpg",
+        ];
+
         return (
             <div className="game-field-panel">
 
-                <GameField/>
+                <GameField images={images}/>
 
                 <GameFieldControls/>
             </div>

@@ -4,22 +4,22 @@
 }
 
 .game-field {
-    display: flex;
-    flex-direction: column;
+    position: relative;
     width: 80%;
 
-    padding: 2%;
-}
-
-.game-field-row {
-    display: flex;
-    flex-grow: 100;
+    margin: 2%;
 }
 
 .game-field-cell {
-    flex-grow: 100;
+    position: absolute;
     border: thin solid black;
     border-radius: 20px;
+}
+
+.game-field-cell img {
+    border-radius: 20px;
+    height: 100%;
+    width: 100%;
 }
 
 .game-field-controls {
