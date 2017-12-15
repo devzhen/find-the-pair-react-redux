@@ -50,22 +50,37 @@ export default class GameField extends React.Component {
      */
     createGameField() {
 
+        /*Ячейки игрового поля*/
+        let gameFieldCells = [];
+
         /*Размеры игрового поля*/
         let gameFieldWidth = this.htmlElement.clientWidth;
         let gameFieldHeight = this.htmlElement.clientHeight;
 
-        /*Вычисление значения border ячейки*/
-        let div = document.createElement('div');
-        div.classList.add('game-field-cell');
-        this.htmlElement.appendChild(div);
-        let cellBorders = div.offsetWidth - div.clientWidth;
-        this.htmlElement.removeChild(div);
-
         /*Размеры ячейки игрового поля*/
-        let cellWidth = gameFieldWidth / this.cols - cellBorders;
-        let cellHeight = gameFieldHeight / this.rows - cellBorders;
+        let cellWidth = gameFieldWidth / this.cols;
+        let cellHeight = gameFieldHeight / this.rows;
 
+        /*Создать ячейки игрового поля*/
+        for (let i = 0; i < this.rows; i++) {
 
+            let top = i * cellHeight;
+
+            for (let j = 0; j < this.cols; j++) {
+
+                gameFieldCells.push(<GameFieldCell key={i.toString() + Symbol + j.toString()}
+                                                   top={top}
+                                                   left={j * cellWidth}
+                                                   width={cellWidth} height={cellHeight}
+                                                   image={this.imagePairs[i][j]}/>)
+            }
+        }
+
+        /*Отобразить ячейки игрового поля*/
+        ReactDOM.render(
+            gameFieldCells,
+            this.htmlElement
+        );
     }
 
 
@@ -153,8 +168,8 @@ export default class GameField extends React.Component {
 }
 
 GameField.propTypes = {
-    rows: PropTypes.number.isRequired, /*Кол-во строк игрового поля*/
-    cols: PropTypes.number.isRequired, /*Кол-во столбцов игрового поля*/
+    rows: PropTypes.number.isRequired,      /*Кол-во строк игрового поля*/
+    cols: PropTypes.number.isRequired,      /*Кол-во столбцов игрового поля*/
     images: PropTypes.array.isRequired      /*Массив с путями к парам изображений*/
 };
 
