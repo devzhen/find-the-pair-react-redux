@@ -7,7 +7,6 @@
 .game-field {
     position: relative;
     width: 80%;
-
     margin: 2%;
 }
 
@@ -26,15 +25,11 @@
 .game-field-controls {
     display: -ms-flex;
     -ms-flex-direction: column;
-
     display: flex;
     flex-direction: column;
 
     width: 20%;
-
     padding: 2%;
-
     font-size: 70%;
-
     border-left: thin solid black;
 }

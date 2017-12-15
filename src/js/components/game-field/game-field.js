@@ -8,6 +8,9 @@ const createImagePairs = Symbol('createImagePairs');
 const mixImagePairs = Symbol('mixImagePairs');
 
 
+/**
+ * Класс отображает игровое поле
+ */
 export default class GameField extends React.Component {
 
     constructor(props) {
@@ -42,8 +45,11 @@ export default class GameField extends React.Component {
 
 
     componentDidMount() {
+
+        /*Создать ячейки игрового поля*/
         this.createGameField();
     }
+
 
     /**
      * Создать ячейки игрового поля
@@ -166,6 +172,7 @@ export default class GameField extends React.Component {
         }
     }
 }
+
 
 GameField.propTypes = {
     rows: PropTypes.number.isRequired,      /*Кол-во строк игрового поля*/
