@@ -9,7 +9,7 @@
     border-radius: 20px;
 }
 
-.tab-list{
+.tab-list {
     display: -ms-flex;
     display: flex;
 }
@@ -18,19 +18,32 @@
     border-top-left-radius: 20px
 }
 
-.tab-list > a:last-child{
+.tab-list > a:last-child {
     border-top-right-radius: 20px
 }
 
 .tab {
-    -ms-flex-grow:2;
+    -ms-flex-grow: 2;
     flex-grow: 2;
+
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
 
     padding: 2%;
     border: thin solid black;
     text-align: center;
     text-decoration: none;
     color: black;
+
 }
 
 .tab-active {

@@ -26,9 +26,9 @@ export default class GameFieldCell extends React.Component {
 
 
 GameFieldCell.propTypes = {
-    top: PropTypes.number.isRequired,
-    left: PropTypes.number.isRequired,
-    width: PropTypes.number.isRequired,
-    height: PropTypes.number.isRequired,
+    top: PropTypes.number.isRequired,       // Координаты 'top' ячейки игрового поля
+    left: PropTypes.number.isRequired,      // Координаты 'left' ячейки игрового поля
+    width: PropTypes.number.isRequired,     // Ширина ячейки игрового поля
+    height: PropTypes.number.isRequired,    // Высота ячейки игрового поля
     image: PropTypes.string.isRequired      // Путь к изображению
 };

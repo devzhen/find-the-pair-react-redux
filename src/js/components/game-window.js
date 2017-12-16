@@ -4,30 +4,34 @@ import TabList from "./tabs/tab-list";
 import Tab from "./tabs/tab";
 import TabContent from "./tabs/tab-content";
 import GameField from "./game-field/game-field-panel";
+import Counter from "./counter";
+import store from "../store";
+import {Provider} from "react-redux";
 
 export default class GameWindow extends React.Component {
 
     render() {
 
         return (
+            <Provider store={store}>
+                <div className="tabbed-window"
+                     style={{width: this.props.width + 'px', height: this.props.height + 'px'}}
+                     onClick={GameWindow.clickHandler}>
 
-            <div className="tabbed-window"
-                 style={{width: this.props.width + 'px', height: this.props.height + 'px'}}
-                 onClick={GameWindow.clickHandler}>
+                    <TabList>
+                        <Tab id={1} textContent="Game" active/>
+                        <Tab id={2} textContent="Config"/>
+                        <Tab id={3} textContent="Records"/>
+                    </TabList>
 
-                <TabList>
-                    <Tab id={1} textContent="Game" active/>
-                    <Tab id={2} textContent="Config"/>
-                    <Tab id={3} textContent="Records"/>
-                </TabList>
+                    <TabContent tabId={1} active>
+                        <GameField/>
+                    </TabContent>
+                    <TabContent tabId={2}><Counter counter={0}/></TabContent>
+                    <TabContent tabId={3}>Records</TabContent>
 
-                <TabContent tabId={1} active>
-                    <GameField/>
-                </TabContent>
-                <TabContent tabId={2}>Config</TabContent>
-                <TabContent tabId={3}>Records</TabContent>
-
-            </div>
+                </div>
+            </Provider>
         );
     }
 

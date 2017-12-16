@@ -4,6 +4,8 @@ import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 import GameFieldCell from "./game-field-cell";
 
+import {connect} from "react-redux";
+
 const createImagePairs = Symbol('createImagePairs');
 const mixImagePairs = Symbol('mixImagePairs');
 
@@ -11,7 +13,7 @@ const mixImagePairs = Symbol('mixImagePairs');
 /**
  * Класс отображает игровое поле
  */
-export default class GameField extends React.Component {
+class GameField extends React.Component {
 
     constructor(props) {
         super(props);
@@ -175,8 +177,8 @@ export default class GameField extends React.Component {
 
 
 GameField.propTypes = {
-    rows: PropTypes.number.isRequired,      /*Кол-во строк игрового поля*/
-    cols: PropTypes.number.isRequired,      /*Кол-во столбцов игрового поля*/
+    rows: PropTypes.number.isRequired, /*Кол-во строк игрового поля*/
+    cols: PropTypes.number.isRequired, /*Кол-во столбцов игрового поля*/
     images: PropTypes.array.isRequired      /*Массив с путями к парам изображений*/
 };
 
@@ -185,3 +187,17 @@ GameField.defaultProps = {
     cols: 3,
     images: []
 };
+
+
+/*Определить соотв-ие м\д данными в store и this.props*/
+function mapStorePropsToThisProps(store) {
+
+    return {
+        images: store.images
+    }
+}
+
+
+const decorator = connect(mapStorePropsToThisProps);
+
+export default decorator(GameField);
