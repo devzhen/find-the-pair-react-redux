@@ -4,8 +4,7 @@ import TabList from "./tabs/tab-list";
 import Tab from "./tabs/tab";
 import TabContent from "./tabs/tab-content";
 import GameField from "./game-field/game-field-panel";
-import Counter from "./counter";
-import store from "../store";
+import store from "../redux/store";
 import {Provider} from "react-redux";
 
 export default class GameWindow extends React.Component {
@@ -27,7 +26,7 @@ export default class GameWindow extends React.Component {
                     <TabContent tabId={1} active>
                         <GameField/>
                     </TabContent>
-                    <TabContent tabId={2}><Counter counter={0}/></TabContent>
+                    <TabContent tabId={2}>Config</TabContent>
                     <TabContent tabId={3}>Records</TabContent>
 
                 </div>

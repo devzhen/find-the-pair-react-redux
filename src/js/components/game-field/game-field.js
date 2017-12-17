@@ -1,13 +1,18 @@
 import React from "react";
 import ReactDOM from "react-dom";
-
 import PropTypes from "prop-types";
+
 import GameFieldCell from "./game-field-cell";
 
 import {connect} from "react-redux";
 
+
 const createImagePairs = Symbol('createImagePairs');
 const mixImagePairs = Symbol('mixImagePairs');
+const optimizeGameFieldSize = Symbol('optimizeGameFieldSize');
+const createGameField = Symbol('createGameField');
+const getGameConfigFromStore = Symbol('getGameConfigFromStore');
+const isGameConfigEquals = Symbol('isGameConfigEquals');
 
 
 /**
@@ -21,24 +26,26 @@ class GameField extends React.Component {
         /*Элемент-отображающий игровое поле*/
         this.htmlElement = null;
 
-        /*Кол-во столбцов игрового поля*/
-        this.cols = this.props.cols;
-
-        /*Кол-во строк игрового поля*/
-        this.rows = this.props.rows;
-
-        /*Оптимизировать размер игрового поля*/
-        this.optimizeGameFieldSize();
-
-        /*Создать пары изображений*/
-        this.imagePairs = this[createImagePairs](this.props.images);
+        /*Получение настроек игры из store*/
+        this[getGameConfigFromStore]();
     }
 
 
+    /**
+     * Lifecycle method
+     */
     render() {
+
+        let className = "game-field";
+
+        /*Если игра поставлена на паузу*/
+        if (this.props.isGameOnPause) {
+            className += " disable-content disable-content-opacity"
+        }
+
         return (
-            <div className="game-field" ref={(div) => {
-                this.htmlElement = div;
+            <div className={className} ref={(div) => {
+                this.htmlElement = div
             }}>
 
             </div>
@@ -46,19 +53,43 @@ class GameField extends React.Component {
     }
 
 
-    componentDidMount() {
+    /**
+     * Lifecycle method
+     */
+    componentDidUpdate(nextProps, nextState) {
 
-        /*Создать ячейки игрового поля*/
-        this.createGameField();
+        console.log('GameField - componentDidUpdate');
+
+        /*Если изменились настройки игры*/
+        if (JSON.stringify(nextProps.gameConfig) !== JSON.stringify(this.props.gameConfig)) {
+
+            /*Получение настроек игры из store*/
+            this[getGameConfigFromStore]();
+
+            /*Создать ячейки игрового поля*/
+            this[createGameField]();
+
+        }
     }
 
 
     /**
+     * Lifecycle method
+     */
+    componentDidMount() {
+
+        /*Создать ячейки игрового поля*/
+        this[createGameField]();
+    }
+
+
+    /**
+     * Private method
      * Создать ячейки игрового поля
      */
-    createGameField() {
+    [createGameField]() {
 
-        /*Ячейки игрового поля*/
+        /*Создать ячейки игрового поля*/
         let gameFieldCells = [];
 
         /*Размеры игрового поля*/
@@ -76,7 +107,7 @@ class GameField extends React.Component {
 
             for (let j = 0; j < this.cols; j++) {
 
-                gameFieldCells.push(<GameFieldCell key={i.toString() + Symbol + j.toString()}
+                gameFieldCells.push(<GameFieldCell key={i.toString() + '#' + j.toString()}
                                                    top={top}
                                                    left={j * cellWidth}
                                                    width={cellWidth} height={cellHeight}
@@ -93,10 +124,35 @@ class GameField extends React.Component {
 
 
     /**
+     * Private method
+     * Получение настроек игры из store
+     */
+    [getGameConfigFromStore]() {
+
+        /*Получение настроек игры из store*/
+        let gameConfig = this.props.gameConfig;
+
+        /*Кол-во столбцов игрового поля*/
+        this.cols = gameConfig.cols;
+
+        /*Кол-во строк игрового поля*/
+        this.rows = gameConfig.rows;
+
+        /*Оптимизировать размер игрового поля*/
+        this[optimizeGameFieldSize]();
+
+        /*Создать пары изображений из массива изображений*/
+        let images = gameConfig.images;
+        this.imagePairs = this[createImagePairs](images);
+    }
+
+
+    /**
+     * Private method
      * Оптимизировать размер игрового поля
      * если кол-во ячеек игрового поля нечетное
      */
-    optimizeGameFieldSize() {
+    [optimizeGameFieldSize]() {
 
         let cellCount = this.rows * this.cols;
 
@@ -124,13 +180,14 @@ class GameField extends React.Component {
         /*Создание массива пар изображений*/
         let imagePairs = [];
 
-        for (let i = 0, j = 0; i < this.rows * this.cols; i++, j++) {
+        for (let i = 0, j = 0; i < this.rows * this.cols; i = i + 2, j++) {
 
             if (j >= array.length) {
                 j = 0;
             }
 
             imagePairs[i] = array[j];
+            imagePairs[i + 1] = array[j];
         }
 
         /*Перемешать массив пар изображений случайным образом*/
@@ -173,31 +230,21 @@ class GameField extends React.Component {
             imagePairs[index] = temp;
         }
     }
+
 }
 
 
 GameField.propTypes = {
-    rows: PropTypes.number.isRequired, /*Кол-во строк игрового поля*/
-    cols: PropTypes.number.isRequired, /*Кол-во столбцов игрового поля*/
-    images: PropTypes.array.isRequired      /*Массив с путями к парам изображений*/
-};
-
-GameField.defaultProps = {
-    rows: 3,
-    cols: 3,
-    images: []
+    gameConfig: PropTypes.object.isRequired,        /*Объект с настройками игры*/
+    isGameOnPause: PropTypes.bool.isRequired        /*Находится ли игра в режиме паузы*/
 };
 
 
-/*Определить соотв-ие м\д данными в store и this.props*/
-function mapStorePropsToThisProps(store) {
-
+const decorator = connect((store) => {
     return {
-        images: store.images
+        gameConfig: store.gameConfig,
+        isGameOnPause: store.isGameOnPause
     }
-}
-
-
-const decorator = connect(mapStorePropsToThisProps);
+});
 
 export default decorator(GameField);

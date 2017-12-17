@@ -6,6 +6,10 @@ body {
     pointer-events: none;
 }
 
+.disable-content-opacity {
+    opacity: 0.5;
+}
+
 .no-display {
     display: none !important;
 }
