@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from "react-redux";
 import {pauseGame} from "../../redux/action_creaters";
-import Timer from "./game-timer";
+import GameTimer from "./game-timer";
+import GameAttempts from "./game-attempts";
 
 const buttonRestartClickHandler = Symbol('buttonRestartClickHandler');
 const buttonPauseClickHandler = Symbol('buttonPauseClickHandler');
@@ -35,9 +36,9 @@ class GameFieldControls extends React.Component {
                     Restart
                 </button>
 
-                <Timer/>
+                <GameTimer/>
 
-                <p>Count<br/>attempts: <span className="game-attempts">0</span></p>
+                <GameAttempts/>
 
                 <button className={this.state.isPaused ? "game-pause" : "game-continue"}
                         onClick={this.buttonPauseClickHandler}

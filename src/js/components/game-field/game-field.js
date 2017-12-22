@@ -2,10 +2,12 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import {connect} from "react-redux";
+import {stopGame, increaseCountAttempts} from "../../redux/action_creaters";
 
 const handleUserClick = Symbol('handleUserClick');
 const checkOpenImages = Symbol('checkOpenImages');
 const attachKeyPressListener = Symbol('attachKeyPressListener');
+const checkCountCells = Symbol('checkCountCells');
 
 /**
  * Класс отображает игровое поле
@@ -109,6 +111,9 @@ class GameField extends React.Component {
                 images[0].parentElement.classList.add('no-visibility');
                 images[1].classList.add('no-display');
                 images[1].parentElement.classList.add('no-visibility');
+
+                /*Проверить количество оставшихся ячеек игрового поля*/
+                this[checkCountCells]();
             };
 
         } else {
@@ -122,8 +127,29 @@ class GameField extends React.Component {
 
         setTimeout(() => {
             callback();
+
+            /*Кол-во открытых изображений*/
             this.countOpenImages = 0;
+
+            /*Увеличить кол-во попыток в игре*/
+            this.props.increaseCountAttempts();
         }, 200);
+    }
+
+
+    /**
+     * Private method
+     * Проверить количество оставшихся ячеек игрового поля
+     */
+    [checkCountCells]() {
+
+        let cells = this.htmlElement.querySelectorAll('div.game-field-cell:not(.no-visibility)');
+        if (cells.length > 0) {
+            return;
+        }
+
+        /*Остановить игру*/
+        this.props.stopGame();
     }
 
 
@@ -171,4 +197,4 @@ export default connect((store) => {
         isGameOnPause: store.isGameOnPause,
         isGameStarted: store.isGameStarted,
     }
-})(GameField);
+},{stopGame, increaseCountAttempts})(GameField);

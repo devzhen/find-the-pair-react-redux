@@ -23,7 +23,7 @@ class GameTimer extends React.Component {
      */
     render() {
 
-        let className = this.props.isGameOnPause ? "game-timer disable-content-opacity" : "game-timer";
+        let className = this.props.isGameOnPause || !this.props.isGameStarted ? "game-timer disable-content-opacity" : "game-timer";
 
         return (
             <p className={className}>{"Timer: " + this.state.seconds}</p>
@@ -56,6 +56,11 @@ class GameTimer extends React.Component {
 
         } else if (prevProps.isGameOnPause !== this.props.isGameOnPause && !this.props.isGameOnPause) {
             this.startTimer();
+        }
+
+        /*Остановить таймер если игра окончена*/
+        if (this.props.isGameStarted === false) {
+            this.stopTimer();
         }
     }
 
@@ -104,13 +109,15 @@ class GameTimer extends React.Component {
 
 
 GameTimer.propTypes = {
-    isGameOnPause: PropTypes.bool.isRequired    // Находится ли игра в режиме паузы
+    isGameOnPause: PropTypes.bool.isRequired,    // Находится ли игра в режиме паузы
+    isGameStarted: PropTypes.bool.isRequired,
 };
 
 
 let decorator = connect((store) => {
     return {
         isGameOnPause: store.isGameOnPause,
+        isGameStarted: store.isGameStarted,
     }
 }, {});
 
