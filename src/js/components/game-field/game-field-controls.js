@@ -30,7 +30,7 @@ class GameFieldControls extends React.Component {
 
         return (
 
-            <div className="game-field-controls">
+            <div className="game-field-controls no-select">
                 <button className="game-restart" disabled={this.props.isGameOnPause || !this.props.isGameStarted}
                         onClick={this.buttonRestartClickHandler}>
                     Restart

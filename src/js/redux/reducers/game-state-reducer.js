@@ -1,4 +1,4 @@
-import {PAUSE_GAME, START_GAME, STOP_GAME} from "../../constants";
+import {FINISH_GAME, PAUSE_GAME, START_GAME, STOP_GAME} from "../../constants";
 
 export function isOnPause(isPaused = false, action) {
 
@@ -21,4 +21,13 @@ export function isStarted(isStarted = false, action) {
     }
 
     return isStarted;
+}
+
+export function isFinished(isGameFinished = false, action) {
+
+    if (action.type === FINISH_GAME) {
+        return true;
+    }
+
+    return isGameFinished;
 }

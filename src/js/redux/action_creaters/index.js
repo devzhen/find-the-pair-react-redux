@@ -1,4 +1,7 @@
-import {INCREASE_COUNT_ATTEMPTS, PAUSE_GAME, START_GAME, STOP_GAME} from "../../constants";
+import {
+    FINISH_GAME, INCREASE_COUNT_ATTEMPTS, PAUSE_GAME, SAVE_GAME_RESULT, START_GAME,
+    STOP_GAME
+} from "../../constants";
 
 export function pauseGame() {
     return {
@@ -15,6 +18,12 @@ export function startGame() {
 export function stopGame() {
     return {
         type: STOP_GAME
+    }
+}
+
+export function finishGame() {
+    return {
+        type: FINISH_GAME
     }
 }
 

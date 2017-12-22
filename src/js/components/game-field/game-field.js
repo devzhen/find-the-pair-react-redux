@@ -2,7 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import {connect} from "react-redux";
-import {stopGame, increaseCountAttempts} from "../../redux/action_creaters";
+import {finishGame, increaseCountAttempts, stopGame} from "../../redux/action_creaters";
+
+import GameSaveResult from "./game-save-result";
 
 const handleUserClick = Symbol('handleUserClick');
 const checkOpenImages = Symbol('checkOpenImages');
@@ -38,9 +40,7 @@ class GameField extends React.Component {
         console.log(this.constructor.name + ' - render()');
 
         let className = "game-field no-select";
-        if (!this.props.isGameStarted) {
-            className = "game-field no-select disable-content";
-        } else if (this.props.isGameOnPause) {
+        if (this.props.isGameOnPause) {
             className = "game-field no-select disable-content disable-content-opacity";
         }
 
@@ -48,6 +48,7 @@ class GameField extends React.Component {
             <div className={className} onClick={this.clickHandler} ref={div => {
                 this.htmlElement = div
             }}>
+                {this.props.isGameFinished ? <GameSaveResult/> : null}
 
                 {this.props.children}
 
@@ -150,6 +151,9 @@ class GameField extends React.Component {
 
         /*Остановить игру*/
         this.props.stopGame();
+
+        /*Закончить игру*/
+        this.props.finishGame();
     }
 
 
@@ -190,11 +194,16 @@ class GameField extends React.Component {
 GameField.propTypes = {
     isGameOnPause: PropTypes.bool.isRequired,
     isGameStarted: PropTypes.bool.isRequired,
+    isGameFinished: PropTypes.bool.isRequired,
+    stopGame: PropTypes.func.isRequired,
+    finishGame: PropTypes.func.isRequired,
+    increaseCountAttempts: PropTypes.func.isRequired,
 };
 
 export default connect((store) => {
     return {
         isGameOnPause: store.isGameOnPause,
+        isGameFinished: store.isGameFinished,
         isGameStarted: store.isGameStarted,
     }
-},{stopGame, increaseCountAttempts})(GameField);
+}, {stopGame, finishGame, increaseCountAttempts})(GameField);
