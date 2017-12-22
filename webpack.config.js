@@ -24,9 +24,7 @@ let config = {
             }
         ]
     },
-    plugins: [
-
-    ]
+    plugins: []
 };
 
 if (DEV_MODE) {

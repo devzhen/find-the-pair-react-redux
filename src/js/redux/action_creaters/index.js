@@ -1,16 +1,4 @@
-import {INCREMENT, PAUSE_GAME, START_GAME, GET_TIME, START_TIMER, STOP_TIMER, CLEAR_TIMER} from "../../constants";
-
-export function increment() {
-    return {
-        type: INCREMENT
-    }
-}
-
-export function restartGame() {
-    return {
-        type: START_GAME
-    }
-}
+import {PAUSE_GAME, START_GAME, STOP_GAME} from "../../constants";
 
 export function pauseGame() {
     return {
@@ -18,26 +6,14 @@ export function pauseGame() {
     }
 }
 
-export function getTime() {
+export function startGame() {
     return {
-        type: GET_TIME
+        type: START_GAME
     }
 }
 
-export function startTimer() {
+export function stopGame() {
     return {
-        type: START_TIMER
-    }
-}
-
-export function stopTimer() {
-    return {
-        type: STOP_TIMER
-    }
-}
-
-export function clearTimer() {
-    return {
-        type: CLEAR_TIMER
+        type: STOP_GAME
     }
 }

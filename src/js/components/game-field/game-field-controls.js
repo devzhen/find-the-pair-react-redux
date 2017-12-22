@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import {connect} from "react-redux";
-
-import {restartGame, pauseGame, startTimer, clearTimer, stopTimer} from "../../redux/action_creaters"
-
+import {pauseGame} from "../../redux/action_creaters";
 import Timer from "./game-timer";
 
+const buttonRestartClickHandler = Symbol('buttonRestartClickHandler');
+const buttonPauseClickHandler = Symbol('buttonPauseClickHandler');
 
 class GameFieldControls extends React.Component {
 
@@ -15,20 +14,25 @@ class GameFieldControls extends React.Component {
 
         this.state = {
             isPaused: false
-        }
+        };
+
+        /*Обработчики click событий на кнопках*/
+        this.buttonRestartClickHandler = this[buttonRestartClickHandler].bind(this);
+        this.buttonPauseClickHandler = this[buttonPauseClickHandler].bind(this);
     }
 
     /**
      * Lifecycle method
      */
     render() {
+        console.log(this.constructor.name + ' - render()');
 
         return (
 
             <div className="game-field-controls">
-                <button className="game-restart"
-                        disabled={this.props.isGameOnPause ? true : false}
-                        onClick={this.handleRestartButtonClick.bind(this)}>Restart
+                <button className="game-restart" disabled={this.props.isGameOnPause || !this.props.isGameStarted}
+                        onClick={this.buttonRestartClickHandler}>
+                    Restart
                 </button>
 
                 <Timer/>
@@ -36,67 +40,47 @@ class GameFieldControls extends React.Component {
                 <p>Count<br/>attempts: <span className="game-attempts">0</span></p>
 
                 <button className={this.state.isPaused ? "game-pause" : "game-continue"}
-                        onClick={this.handlePauseButtonClick.bind(this)}>
+                        onClick={this.buttonPauseClickHandler}
+                        disabled={!this.props.isGameStarted}>
                     {this.state.isPaused ? "Continue" : "Pause"}
                 </button>
             </div>
         );
     }
 
-
     /**
-     * Обработчик 'click' на кнопке 'Restart'
+     * Обработчик click события на кнопке Pause
      */
-    handleRestartButtonClick() {
+    [buttonPauseClickHandler]() {
 
-        /*Очистить таймер*/
-        this.props.clearTimer();
-
-        /*Перезапуск игры*/
-        this.props.restartGame();
-
-        /*Запустить таймер*/
-        this.props.startTimer();
-    }
-
-
-    /**
-     * Обработчик 'click' на кнопке 'Pause|Continue'
-     */
-    handlePauseButtonClick() {
-
-        let value = this.state.isPaused;
+        let value = !this.state.isPaused;
 
         this.setState({
-            isPaused: !value
+            isPaused: value
         });
 
         this.props.pauseGame();
     }
 
-    componentDidUpdate() {
-        console.log('GameFieldControls - componentDidUpdate');
 
-        if (this.state.isPaused) {
-            this.props.stopTimer();
-        } else {
-            this.props.startTimer();
-        }
+    /**
+     * Обработчик click события на кнопке Restart
+     */
+    [buttonRestartClickHandler]() {
+
     }
 }
 
 
 GameFieldControls.propTypes = {
-    isGameOnPause: PropTypes.bool.isRequired,           // Находится ли игра в режиме паузы
-    restartGame: PropTypes.func.isRequired,             // Перезапустить игру
-    pauseGame: PropTypes.func.isRequired,               // Поставить игру на паузу
-    startTimer: PropTypes.func.isRequired,              // Запустить таймер
-    clearTimer: PropTypes.func.isRequired,              // Очистиь таймер
-    stopTimer: PropTypes.func.isRequired,                // Остановить таймер
+    isGameOnPause: PropTypes.bool.isRequired,
+    isGameStarted: PropTypes.bool.isRequired,
+    pauseGame: PropTypes.func.isRequired
 };
 
 export default connect((store) => {
     return {
-        isGameOnPause: store.isGameOnPause
+        isGameOnPause: store.isGameOnPause,
+        isGameStarted: store.isGameStarted,
     }
-}, {restartGame, pauseGame, startTimer, clearTimer, stopTimer})(GameFieldControls);
+}, {pauseGame})(GameFieldControls);

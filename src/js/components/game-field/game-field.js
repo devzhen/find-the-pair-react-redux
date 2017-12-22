@@ -1,19 +1,11 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
-
-import GameFieldCell from "./game-field-cell";
 
 import {connect} from "react-redux";
 
-
-const createImagePairs = Symbol('createImagePairs');
-const mixImagePairs = Symbol('mixImagePairs');
-const optimizeGameFieldSize = Symbol('optimizeGameFieldSize');
-const createGameField = Symbol('createGameField');
-const getGameConfigFromStore = Symbol('getGameConfigFromStore');
-const isGameConfigEquals = Symbol('isGameConfigEquals');
-
+const handleUserClick = Symbol('handleUserClick');
+const checkOpenImages = Symbol('checkOpenImages');
+const attachKeyPressListener = Symbol('attachKeyPressListener');
 
 /**
  * Класс отображает игровое поле
@@ -23,11 +15,16 @@ class GameField extends React.Component {
     constructor(props) {
         super(props);
 
-        /*Элемент-отображающий игровое поле*/
         this.htmlElement = null;
 
-        /*Получение настроек игры из store*/
-        this[getGameConfigFromStore]();
+        /*Кол-во открытых изображений*/
+        this.countOpenImages = 0;
+
+        /*Обработчик click события*/
+        this.clickHandler = this[handleUserClick].bind(this);
+
+        /*Обработчик keypress события*/
+        this[attachKeyPressListener]();
     }
 
 
@@ -36,17 +33,21 @@ class GameField extends React.Component {
      */
     render() {
 
-        let className = "game-field";
+        console.log(this.constructor.name + ' - render()');
 
-        /*Если игра поставлена на паузу*/
-        if (this.props.isGameOnPause) {
-            className += " disable-content disable-content-opacity"
+        let className = "game-field no-select";
+        if (!this.props.isGameStarted) {
+            className = "game-field no-select disable-content";
+        } else if (this.props.isGameOnPause) {
+            className = "game-field no-select disable-content disable-content-opacity";
         }
 
         return (
-            <div className={className} ref={(div) => {
+            <div className={className} onClick={this.clickHandler} ref={div => {
                 this.htmlElement = div
             }}>
+
+                {this.props.children}
 
             </div>
         );
@@ -54,197 +55,120 @@ class GameField extends React.Component {
 
 
     /**
-     * Lifecycle method
-     */
-    componentDidUpdate(nextProps, nextState) {
-
-        console.log('GameField - componentDidUpdate');
-
-        /*Если изменились настройки игры*/
-        if (JSON.stringify(nextProps.gameConfig) !== JSON.stringify(this.props.gameConfig)) {
-
-            /*Получение настроек игры из store*/
-            this[getGameConfigFromStore]();
-
-            /*Создать ячейки игрового поля*/
-            this[createGameField]();
-
-        }
-    }
-
-
-    /**
-     * Lifecycle method
-     */
-    componentDidMount() {
-
-        /*Создать ячейки игрового поля*/
-        this[createGameField]();
-    }
-
-
-    /**
      * Private method
-     * Создать ячейки игрового поля
+     * Обработчик click события
+     * @param e {Event}
      */
-    [createGameField]() {
+    [handleUserClick](e) {
 
-        /*Создать ячейки игрового поля*/
-        let gameFieldCells = [];
-
-        /*Размеры игрового поля*/
-        let gameFieldWidth = this.htmlElement.clientWidth;
-        let gameFieldHeight = this.htmlElement.clientHeight;
-
-        /*Размеры ячейки игрового поля*/
-        let cellWidth = gameFieldWidth / this.cols;
-        let cellHeight = gameFieldHeight / this.rows;
-
-        /*Создать ячейки игрового поля*/
-        for (let i = 0; i < this.rows; i++) {
-
-            let top = i * cellHeight;
-
-            for (let j = 0; j < this.cols; j++) {
-
-                gameFieldCells.push(<GameFieldCell key={i.toString() + '#' + j.toString()}
-                                                   top={top}
-                                                   left={j * cellWidth}
-                                                   width={cellWidth} height={cellHeight}
-                                                   image={this.imagePairs[i][j]}/>)
-            }
-        }
-
-        /*Отобразить ячейки игрового поля*/
-        ReactDOM.render(
-            gameFieldCells,
-            this.htmlElement
-        );
-    }
-
-
-    /**
-     * Private method
-     * Получение настроек игры из store
-     */
-    [getGameConfigFromStore]() {
-
-        /*Получение настроек игры из store*/
-        let gameConfig = this.props.gameConfig;
-
-        /*Кол-во столбцов игрового поля*/
-        this.cols = gameConfig.cols;
-
-        /*Кол-во строк игрового поля*/
-        this.rows = gameConfig.rows;
-
-        /*Оптимизировать размер игрового поля*/
-        this[optimizeGameFieldSize]();
-
-        /*Создать пары изображений из массива изображений*/
-        let images = gameConfig.images;
-        this.imagePairs = this[createImagePairs](images);
-    }
-
-
-    /**
-     * Private method
-     * Оптимизировать размер игрового поля
-     * если кол-во ячеек игрового поля нечетное
-     */
-    [optimizeGameFieldSize]() {
-
-        let cellCount = this.rows * this.cols;
-
-        while (cellCount % 2 !== 0) {
-            this.cols++;
-
-            cellCount = this.rows * this.cols;
-        }
-
-    }
-
-
-    /**
-     * Private method
-     * Создать пары изображений
-     * @param array {Array}. Массив с изображениями
-     * @returns {Array}. Двумерный массив пар изображений
-     */
-    [createImagePairs](array) {
-
-        if (array.length === 0) {
+        /*Если игра на паузе или не начата*/
+        if (this.props.isGameOnPause || !this.props.isGameStarted) {
             return;
         }
 
-        /*Создание массива пар изображений*/
-        let imagePairs = [];
-
-        for (let i = 0, j = 0; i < this.rows * this.cols; i = i + 2, j++) {
-
-            if (j >= array.length) {
-                j = 0;
-            }
-
-            imagePairs[i] = array[j];
-            imagePairs[i + 1] = array[j];
+        /*Если click не на ячейке игрового поля*/
+        if (e.target.tagName !== 'DIV' || !e.target.classList.contains('game-field-cell')) {
+            return;
         }
 
-        /*Перемешать массив пар изображений случайным образом*/
-        this[mixImagePairs](imagePairs);
-
-        /*Создание двумерного массива пар изображений*/
-        let _imagePairs = [];
-        let index = 0;
-
-        for (let i = 0; i < this.rows; i++) {
-
-            _imagePairs[i] = [];
-
-            for (let j = 0; j < this.cols; j++) {
-
-                _imagePairs[i][j] = imagePairs[index++];
-            }
+        /*Если уже открыто два изображения*/
+        if (this.countOpenImages === 2) {
+            return;
         }
 
-        return _imagePairs;
+        /*Перевернуть изображение*/
+        let image = e.target.firstChild;
+        image.classList.remove('no-display');
+        this.countOpenImages++;
+
+        /*Проверить открытые изображения*/
+        this[checkOpenImages]();
     }
 
 
     /**
      * Private method
-     * Перемешать массив пар изображений случайным образом
-     * @param imagePairs {Array}. Массив пар изображений.
+     * Проверить открытые изображения
      */
-    [mixImagePairs](imagePairs) {
+    [checkOpenImages]() {
 
-        for (let i = 0; i < imagePairs.length; i++) {
-
-            let index = Math.floor(Math.random() * imagePairs.length);
-            if (index === i) {
-                continue;
-            }
-
-            let temp = imagePairs[i];
-            imagePairs[i] = imagePairs[index];
-            imagePairs[index] = temp;
+        if (this.countOpenImages < 2) {
+            return;
         }
+
+        /*Открытые изображения*/
+        let images = this.htmlElement.querySelectorAll('img:not(.no-display)');
+        let callback = null;
+
+        /*Если одинаковые изображения*/
+        if (images[0].src === images[1].src) {
+
+            /*Удалить ячейки*/
+            callback = () => {
+                images[0].classList.add('no-display');
+                images[0].parentElement.classList.add('no-visibility');
+                images[1].classList.add('no-display');
+                images[1].parentElement.classList.add('no-visibility');
+            };
+
+        } else {
+
+            /*Спрятать ячейки*/
+            callback = () => {
+                images[0].classList.add('no-display');
+                images[1].classList.add('no-display');
+            };
+        }
+
+        setTimeout(() => {
+            callback();
+            this.countOpenImages = 0;
+        }, 200);
     }
 
+
+    /**
+     * Private method
+     * Обработчик keypress события
+     * При нажатии 'shift + s' отображаются все изображения
+     */
+    [attachKeyPressListener]() {
+
+        document.addEventListener('keypress', (e) => {
+
+            if (e.keyCode === 83 && e.shiftKey) {
+
+                let images = this.htmlElement.querySelectorAll('img.no-display');
+
+                for (let i = 0; i < images.length; i++) {
+
+                    images[i].classList.remove('no-display');
+
+                }
+
+                setTimeout(() => {
+
+                    for (let i = 0; i < images.length; i++) {
+
+                        images[i].classList.add('no-display');
+
+                    }
+
+                }, 1000);
+            }
+        });
+    }
 }
 
 
 GameField.propTypes = {
-    gameConfig: PropTypes.object.isRequired,        /*Объект с настройками игры*/
-    isGameOnPause: PropTypes.bool.isRequired        /*Находится ли игра в режиме паузы*/
+    isGameOnPause: PropTypes.bool.isRequired,
+    isGameStarted: PropTypes.bool.isRequired,
 };
 
-
-const decorator = connect((store) => {
+export default connect((store) => {
     return {
-        gameConfig: store.gameConfig,
-        isGameOnPause: store.isGameOnPause
+        isGameOnPause: store.isGameOnPause,
+        isGameStarted: store.isGameStarted,
     }
-});
-
-export default decorator(GameField);
+})(GameField);

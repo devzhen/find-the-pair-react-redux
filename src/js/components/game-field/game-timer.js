@@ -1,19 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from "react-redux";
-import {startTimer, getTime} from "../../redux/action_creaters/index"
 
 const convertSecondsToTime = Symbol('convertSecondsToTime');
 
-class Timer extends React.Component {
+
+class GameTimer extends React.Component {
 
     constructor(props) {
         super(props);
 
-        this.props.getTime();
-
+        this.seconds = 0;
+        this.intervalId = null;
         this.state = {
-            seconds: this.props.seconds
+            seconds: this[convertSecondsToTime]()
         };
     }
 
@@ -22,7 +22,12 @@ class Timer extends React.Component {
      * Lifecycle method
      */
     render() {
-        return <p className="game-timer">{"Timer: " + this[convertSecondsToTime]()}</p>;
+
+        let className = this.props.isGameOnPause ? "game-timer disable-content-opacity" : "game-timer";
+
+        return (
+            <p className={className}>{"Timer: " + this.state.seconds}</p>
+        );
     }
 
 
@@ -31,19 +36,54 @@ class Timer extends React.Component {
      */
     componentDidMount() {
 
-        /*Запуск таймера*/
-        this.props.startTimer();
-
-        /*Каждую секунду получать значение time из store*/
+        /*Запустить таймер*/
         let self = this;
-        setInterval(function () {
+        setTimeout(function () {
+            self.startTimer();
+        }, 2300);
 
-            self.props.getTime();
+    }
+
+
+    /**
+     * Lifecycle method
+     */
+    componentDidUpdate(prevProps, prevState) {
+
+        /*Остановить таймер если игра в режиме паузы*/
+        if (prevProps.isGameOnPause !== this.props.isGameOnPause && this.props.isGameOnPause) {
+            this.stopTimer();
+
+        } else if (prevProps.isGameOnPause !== this.props.isGameOnPause && !this.props.isGameOnPause) {
+            this.startTimer();
+        }
+    }
+
+
+    /**
+     * Запустить таймер
+     */
+    startTimer() {
+        let self = this;
+
+        self.intervalId = setInterval(function () {
+
+            self.seconds++;
+
             self.setState({
-                seconds: self.props.seconds
+                seconds: self[convertSecondsToTime]()
             });
 
-        }, 900);
+        }, 1000);
+    }
+
+
+    /**
+     * Остановить таймер
+     */
+    stopTimer() {
+        clearInterval(this.intervalId);
+        this.intervalId = null;
     }
 
 
@@ -51,27 +91,27 @@ class Timer extends React.Component {
      * Вернуть строковое прдставление значения таймера
      * @returns {string}
      */
-    [convertSecondsToTime](){
+    [convertSecondsToTime]() {
 
         let date = new Date(null);
 
-        date.setSeconds(this.state.seconds);
+        date.setSeconds(this.seconds);
 
         return date.toISOString().substr(11, 8);
     }
+
 }
 
 
-Timer.propTypes = {
-    seconds: PropTypes.number.isRequired,          // Время в секундах для отображения
-    startTimer: PropTypes.func.isRequired,      // Запустить таймер
-    getTime: PropTypes.func.isRequired          // Получить текщее время из store
+GameTimer.propTypes = {
+    isGameOnPause: PropTypes.bool.isRequired    // Находится ли игра в режиме паузы
 };
+
 
 let decorator = connect((store) => {
     return {
-        seconds: store.seconds
+        isGameOnPause: store.isGameOnPause,
     }
-}, {startTimer, getTime});
+}, {});
 
-export default decorator(Timer);
+export default decorator(GameTimer);
