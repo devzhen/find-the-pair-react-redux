@@ -38,7 +38,7 @@ class GameSaveResult extends React.Component {
      */
     [handleUserClick]() {
         let name = prompt("Please enter your name", "");
-        if (name !== '') {
+        if (name !== '' && name !== null) {
             this.setState({
                 incorrectName: false,
                 isGameResultSaved: true

@@ -29,6 +29,21 @@ let config = {
     ]
 };
 
+let config2 = {
+    rows: 2,
+    cols: 2,
+    images: [
+        [
+            "../img/bridge.jpg",
+            "../img/bridge.jpg",
+        ],
+        [
+            "../img/horse.jpg",
+            "../img/horse.jpg",
+        ],
+    ]
+};
+
 function mixImages(config) {
 
     for (let i = 0; i < config.images.length; i++) {
@@ -47,4 +62,4 @@ function mixImages(config) {
 
 }
 
-export default mixImages(config);
+export default mixImages(config2);
