@@ -40,7 +40,7 @@ class GameTimer extends React.Component {
         let self = this;
         setTimeout(function () {
             self.startTimer();
-        }, 2300);
+        }, 2000);
 
     }
 
@@ -70,6 +70,12 @@ class GameTimer extends React.Component {
      */
     startTimer() {
         let self = this;
+
+        self.seconds++;
+
+        self.setState({
+            seconds: self[convertSecondsToTime]()
+        });
 
         self.intervalId = setInterval(function () {
 
