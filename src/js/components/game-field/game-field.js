@@ -37,8 +37,6 @@ class GameField extends React.Component {
      */
     render() {
 
-        console.log(this.constructor.name + ' - render()');
-
         let className = "game-field no-select";
         if (this.props.isGameOnPause) {
             className = "game-field no-select disable-content disable-content-opacity";
@@ -166,7 +164,7 @@ class GameField extends React.Component {
 
         document.addEventListener('keypress', (e) => {
 
-            if (e.keyCode === 83 && e.shiftKey) {
+            if (e.keyCode === 83 && e.shiftKey || e.keyCode === 1099 && e.shiftKey) {
 
                 let images = this.htmlElement.querySelectorAll('img.no-display');
 

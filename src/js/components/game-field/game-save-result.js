@@ -1,7 +1,12 @@
 import React from 'react';
 import {connect} from "react-redux";
+import PropTypes from "prop-types";
+import GamePointsManager from "../../service/game-points-manager";
+import LocalStorageManager from "../../service/local-storage-manager";
+
 
 const handleUserClick = Symbol('handleUserClick');
+const saveGameResult = Symbol('saveGameResult');
 
 
 class GameSaveResult extends React.Component {
@@ -37,8 +42,12 @@ class GameSaveResult extends React.Component {
      * Обработчик click события
      */
     [handleUserClick]() {
-        let name = prompt("Please enter your name", "");
-        if (name !== '' && name !== null) {
+        let userName = prompt("Please enter your name", "");
+        if (userName !== '' && userName !== null) {
+
+            /*Сохранить результат игры в local storage*/
+            this[saveGameResult](userName);
+
             this.setState({
                 incorrectName: false,
                 isGameResultSaved: true
@@ -51,6 +60,36 @@ class GameSaveResult extends React.Component {
         }
 
     }
+
+
+    /**
+     * Сохранить результат игры в local storage
+     */
+    [saveGameResult](name) {
+
+        /*Подготовить результат для сохранения*/
+        let result = new GamePointsManager(
+            this.props.gameConfig.rows,
+            this.props.gameConfig.cols,
+            this.props.countAttempts,
+            this.props.seconds
+        ).getGameResult();
+
+        /*Сохранить результат игры в local storage*/
+        LocalStorageManager.saveGameResult(name, result);
+    }
 }
 
-export default connect()(GameSaveResult);
+GameSaveResult.propTypes = {
+    gameConfig: PropTypes.object.isRequired,
+    countAttempts: PropTypes.number.isRequired,
+    seconds: PropTypes.number.isRequired,
+};
+
+export default connect((store) => {
+    return {
+        gameConfig: store.gameConfig,
+        countAttempts: store.countAttempts,
+        seconds: store.seconds
+    };
+})(GameSaveResult);

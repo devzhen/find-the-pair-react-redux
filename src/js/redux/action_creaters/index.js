@@ -1,7 +1,15 @@
 import {
-    FINISH_GAME, INCREASE_COUNT_ATTEMPTS, PAUSE_GAME, SAVE_GAME_RESULT, START_GAME,
-    STOP_GAME
+    CHANGE_GAME_FIELD_SIZE, FINISH_GAME, INCREASE_COUNT_ATTEMPTS, NEW_GAME, PAUSE_GAME, SET_GAME_TIME, START_GAME,
+    STOP_GAME, ZERO_COUNT_ATTEMPTS
 } from "../../constants";
+
+
+export function startNewGame() {
+    return {
+        type: NEW_GAME
+    }
+}
+
 
 export function pauseGame() {
     return {
@@ -30,5 +38,29 @@ export function finishGame() {
 export function increaseCountAttempts() {
     return {
         type: INCREASE_COUNT_ATTEMPTS
+    }
+}
+
+export function zeroCountAttempts() {
+    return {
+        type: ZERO_COUNT_ATTEMPTS
+    }
+}
+
+export function setGameTime(seconds) {
+    return {
+        type: SET_GAME_TIME,
+        payload: {
+            seconds: seconds
+        }
+    }
+}
+
+export function changeGameFieldSize(size) {
+    return {
+        type: CHANGE_GAME_FIELD_SIZE,
+        payload: {
+            size: size
+        }
     }
 }

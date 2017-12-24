@@ -1,0 +1,16 @@
+.game-config {
+    display: -ms-flex;
+    -ms-flex-direction: column;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 10px;
+}
+
+.game-field-size select{
+    width: 30%;
+}
+
+.game-color-scheme select{
+    width: 30%;
+}

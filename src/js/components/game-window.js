@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 import TabList from "./tabs/tab-list";
 import Tab from "./tabs/tab";
 import TabContent from "./tabs/tab-content";
-import GameField from "./game-field/game-field-panel";
+import GameFieldPanel from "./game-field/game-field-panel";
+import GameConfig from "./game-config/game-config";
+import GameFieldSize from "./game-config/game-field-size";
+import GameColorScheme from "./game-config/game-color-scheme";
 import store from "../redux/store";
 import {Provider} from "react-redux";
 
@@ -24,9 +27,16 @@ export default class GameWindow extends React.Component {
                     </TabList>
 
                     <TabContent tabId={1} active>
-                        <GameField/>
+                        <GameFieldPanel/>
                     </TabContent>
-                    <TabContent tabId={2}>Config</TabContent>
+
+                    <TabContent tabId={2}>
+                        <GameConfig>
+                            <GameFieldSize/>
+                            <GameColorScheme/>
+                        </GameConfig>
+                    </TabContent>
+
                     <TabContent tabId={3}>Records</TabContent>
 
                 </div>

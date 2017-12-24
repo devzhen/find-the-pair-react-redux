@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from "react-redux";
-import {pauseGame} from "../../redux/action_creaters";
+import {pauseGame, stopGame, finishGame, startNewGame} from "../../redux/action_creaters";
 import GameTimer from "./game-timer";
 import GameAttempts from "./game-attempts";
 
@@ -26,12 +26,12 @@ class GameFieldControls extends React.Component {
      * Lifecycle method
      */
     render() {
-        console.log(this.constructor.name + ' - render()');
 
         return (
 
             <div className="game-field-controls no-select">
-                <button className="game-restart" disabled={this.props.isGameOnPause || !this.props.isGameStarted}
+                <button className="game-restart"
+                        disabled={this.props.isGameOnPause || !this.props.isGameStarted && !this.props.isGameFinished}
                         onClick={this.buttonRestartClickHandler}>
                     Restart
                 </button>
@@ -68,7 +68,8 @@ class GameFieldControls extends React.Component {
      * Обработчик click события на кнопке Restart
      */
     [buttonRestartClickHandler]() {
-
+        this.props.stopGame();
+        this.props.startNewGame();
     }
 }
 
@@ -76,12 +77,15 @@ class GameFieldControls extends React.Component {
 GameFieldControls.propTypes = {
     isGameOnPause: PropTypes.bool.isRequired,
     isGameStarted: PropTypes.bool.isRequired,
-    pauseGame: PropTypes.func.isRequired
+    isGameFinished: PropTypes.bool.isRequired,
+    pauseGame: PropTypes.func.isRequired,
+    startNewGame: PropTypes.func.isRequired,
 };
 
 export default connect((store) => {
     return {
         isGameOnPause: store.isGameOnPause,
         isGameStarted: store.isGameStarted,
+        isGameFinished: store.isGameFinished,
     }
-}, {pauseGame})(GameFieldControls);
+}, {pauseGame, stopGame, finishGame, startNewGame})(GameFieldControls);

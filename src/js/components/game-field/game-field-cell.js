@@ -15,8 +15,6 @@ class GameFieldCell extends React.Component {
 
     render() {
 
-        console.log(this.constructor.name + ' - render()');
-
         return (
             <div className="game-field-cell"
                  style={{width: this.props.width, height: this.props.height}}>

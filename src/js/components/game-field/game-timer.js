@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from "react-redux";
+import {setGameTime} from "../../redux/action_creaters";
 
 const convertSecondsToTime = Symbol('convertSecondsToTime');
 
@@ -23,7 +24,7 @@ class GameTimer extends React.Component {
      */
     render() {
 
-        let className = this.props.isGameOnPause || !this.props.isGameStarted ? "game-timer disable-content-opacity" : "game-timer";
+        let className = this.props.isGameOnPause || this.props.isGameFinished || !this.props.isGameStarted ? "game-timer disable-content-opacity" : "game-timer";
 
         return (
             <p className={className}>{"Timer: " + this.state.seconds}</p>
@@ -48,6 +49,29 @@ class GameTimer extends React.Component {
     /**
      * Lifecycle method
      */
+    componentWillReceiveProps(nextProps) {
+
+        if (nextProps.gameConfig.id !== this.props.gameConfig.id) {
+
+            /*Остановить таймер*/
+            this.stopTimer();
+            this.seconds = 0;
+            this.setState({
+                seconds: this[convertSecondsToTime]()
+            });
+
+            /*Запустить таймер*/
+            let self = this;
+            setTimeout(function () {
+                self.startTimer();
+            }, 2000);
+        }
+    }
+
+
+    /**
+     * Lifecycle method
+     */
     componentDidUpdate(prevProps, prevState) {
 
         /*Остановить таймер если игра в режиме паузы*/
@@ -59,8 +83,13 @@ class GameTimer extends React.Component {
         }
 
         /*Остановить таймер если игра окончена*/
-        if (this.props.isGameStarted === false) {
+        if (this.props.isGameFinished === true) {
+
+            /*Остановить таймер*/
             this.stopTimer();
+
+            /*Отправить в store количество секунд в игре*/
+            this.props.setGameTime(this.seconds);
         }
     }
 
@@ -115,16 +144,21 @@ class GameTimer extends React.Component {
 
 
 GameTimer.propTypes = {
+    gameConfig: PropTypes.object.isRequired,
     isGameOnPause: PropTypes.bool.isRequired,    // Находится ли игра в режиме паузы
+    isGameFinished: PropTypes.bool.isRequired,
     isGameStarted: PropTypes.bool.isRequired,
+    setGameTime: PropTypes.func.isRequired,
 };
 
 
 let decorator = connect((store) => {
     return {
+        gameConfig: store.gameConfig,
         isGameOnPause: store.isGameOnPause,
-        isGameStarted: store.isGameStarted,
+        isGameFinished: store.isGameFinished,
+        isGameStarted: store.isGameStarted
     }
-}, {});
+}, {setGameTime});
 
 export default decorator(GameTimer);

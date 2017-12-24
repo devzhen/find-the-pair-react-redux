@@ -1,11 +1,14 @@
 import {combineReducers} from "redux";
 
 import {isFinished, isOnPause, isStarted} from "../reducers/game-state-reducer";
-import {getCountAttempts} from "../reducers/game-statistics-reducer";
+import gameConfig from "../reducers/game-config-reducer";
+import {countAttempts, gameFieldColsCount, gameFieldRowsCount, gameSeconds} from "../reducers/game-statistics-reducer";
 
 export default combineReducers({
+    gameConfig: gameConfig,
     isGameOnPause: isOnPause,
     isGameStarted: isStarted,
     isGameFinished: isFinished,
-    countAttempts: getCountAttempts
+    countAttempts: countAttempts,
+    seconds: gameSeconds,
 });

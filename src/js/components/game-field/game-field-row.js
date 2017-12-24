@@ -1,11 +1,13 @@
 import React from 'react';
-import config from "../../config";
+import PropTypes from "prop-types";
+import {connect} from "react-redux";
 
-export default class GameFieldRow extends React.Component {
+
+class GameFieldRow extends React.Component {
 
     render() {
         return (
-            <div className={"game-field-row"} style={{height: 100 / config.rows + "%"}}>
+            <div className={"game-field-row"} style={{height: 100 / this.props.gameConfig.rows + "%"}}>
                 {this.props.children}
             </div>
         );
@@ -13,6 +15,10 @@ export default class GameFieldRow extends React.Component {
 }
 
 
-GameFieldRow.propTypes = {};
+GameFieldRow.propTypes = {
+    gameConfig: PropTypes.object.isRequired
+};
 
-GameFieldRow.defaultProps = {};
+export default connect((store) => {
+    return {gameConfig: store.gameConfig};
+})(GameFieldRow);

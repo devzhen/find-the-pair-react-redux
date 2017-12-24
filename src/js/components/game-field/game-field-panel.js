@@ -4,8 +4,6 @@ import {connect} from "react-redux";
 import {startGame} from "../../redux/action_creaters";
 import GameFieldControls from "./game-field-controls";
 import GameField from "./game-field";
-
-import config from "../../config";
 import GameFieldCell from "./game-field-cell";
 import GameFieldRow from "./game-field-row";
 
@@ -25,8 +23,6 @@ class GameFieldPanel extends React.Component {
 
 
     render() {
-
-        console.log(this.constructor.name + ' render()');
 
         return (
             <div className={"game-field-panel"} ref={(div) => {
@@ -56,6 +52,19 @@ class GameFieldPanel extends React.Component {
     }
 
 
+    componentDidUpdate() {
+
+        setTimeout(() => {
+
+            /*Активировать игру*/
+            this.props.startGame();
+
+            /*Спрятать изображения*/
+            this[hideImages]();
+
+        }, 2000);
+    }
+
     /**
      * Private method
      * Создать ячейки игрового поля
@@ -66,15 +75,15 @@ class GameFieldPanel extends React.Component {
         let gameField = [];
         let cols = [];
 
-        for (let i = 0; i < config.rows; i++) {
+        for (let i = 0; i < this.props.gameConfig.rows; i++) {
 
-            for (let j = 0; j < config.cols; j++) {
+            for (let j = 0; j < this.props.gameConfig.cols; j++) {
 
                 let component = <GameFieldCell
-                    key={i.toString() + '#' + j.toString()}
-                    width={100 / config.cols + '%'}
+                    key={this.props.gameConfig.id + '#' + i.toString() + '#' + j.toString()}
+                    width={100 / this.props.gameConfig.cols + '%'}
                     height={"100%"}
-                    image={config.images[i][j]}/>;
+                    image={this.props.gameConfig.images[i][j]}/>;
 
                 cols.push(component);
             }
@@ -106,7 +115,10 @@ class GameFieldPanel extends React.Component {
 
 
 GameFieldPanel.propTypes = {
+    gameConfig: PropTypes.object.isRequired,
     startGame: PropTypes.func.isRequired,
 };
 
-export default connect(null, {startGame})(GameFieldPanel);
+export default connect((store) => {
+    return {gameConfig: store.gameConfig};
+}, {startGame})(GameFieldPanel);
