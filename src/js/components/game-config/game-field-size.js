@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import {changeGameFieldSize, zeroCountAttempts, setActiveTab} from "../../redux/action_creaters";
 import {FIRST_TAB} from "../../constants";
 
-const handleUserChange = Symbol(handleUserChange);
+const handleUserChange = Symbol('handleUserChange');
 
 class GameFieldSize extends React.Component {
 

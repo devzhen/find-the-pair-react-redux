@@ -1,6 +1,6 @@
 import {
-    CHANGE_GAME_FIELD_SIZE, FINISH_GAME, INCREASE_COUNT_ATTEMPTS, NEW_GAME, PAUSE_GAME, SET_ACTIVE_TAB,
-    SET_GAME_TIME, START_GAME, STOP_GAME, ZERO_COUNT_ATTEMPTS
+    CHANGE_GAME_FIELD_SIZE, FINISH_GAME, INCREASE_COUNT_ATTEMPTS, NEW_GAME, PAUSE_GAME, SET_ACTIVE_TAB, SET_CELLS_COLOR,
+    SET_GAME_TIME, SET_WINDOW_COLOR, START_GAME, STOP_GAME, ZERO_COUNT_ATTEMPTS
 } from "../../constants";
 
 
@@ -71,6 +71,24 @@ export function changeGameFieldSize(size) {
         type: CHANGE_GAME_FIELD_SIZE,
         payload: {
             size: size
+        }
+    }
+}
+
+export function changeGameWindowColorScheme(color) {
+    return {
+        type: SET_WINDOW_COLOR,
+        payload: {
+            color: color
+        }
+    }
+}
+
+export function changeGameCellsColorScheme(color) {
+    return {
+        type: SET_CELLS_COLOR,
+        payload: {
+            color: color
         }
     }
 }

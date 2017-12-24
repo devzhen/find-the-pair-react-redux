@@ -1,8 +1,11 @@
 import React from 'react';
+import PropTypes from "prop-types";
+import {connect} from "react-redux";
+import {changeGameCellsColorScheme, changeGameWindowColorScheme} from "../../redux/action_creaters";
 
 const handleUserChange = Symbol(handleUserChange);
 
-export default class GameColorScheme extends React.Component {
+class GameColorScheme extends React.Component {
 
     constructor(props) {
         super(props);
@@ -26,12 +29,19 @@ export default class GameColorScheme extends React.Component {
     }
 
     /*Обработчик change события*/
-    [handleUserChange]() {
+    [handleUserChange](e) {
+        let color = e.target.value;
 
+        this.props.changeGameCellsColorScheme(color);
+        this.props.changeGameWindowColorScheme(color);
     }
 }
 
 
-GameColorScheme.propTypes = {};
+GameColorScheme.propTypes = {
+    changeGameWindowColorScheme:PropTypes.func.isRequired,
+    changeGameCellsColorScheme:PropTypes.func.isRequired,
+};
 
-GameColorScheme.defaultProps = {};
+
+export default connect(null, {changeGameWindowColorScheme, changeGameCellsColorScheme})(GameColorScheme);

@@ -16,7 +16,7 @@ class Tab extends React.Component {
 
     render() {
 
-        let className = "tab";
+        let className = "tab no-select";
 
         /*Активна ли вкладка*/
         if (this.props.activeTab === this.props.id) {
