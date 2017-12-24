@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from "react-redux";
-import {changeGameFieldSize, zeroCountAttempts} from "../../redux/action_creaters";
+import {changeGameFieldSize, zeroCountAttempts, setActiveTab} from "../../redux/action_creaters";
+import {FIRST_TAB} from "../../constants";
 
 const handleUserChange = Symbol(handleUserChange);
 
@@ -36,6 +37,9 @@ class GameFieldSize extends React.Component {
 
         /*Изменить размер игрового поля*/
         this.props.changeGameFieldSize(e.target.value);
+
+        /*Установить первую вкладку окна игры - активной*/
+        this.props.setActiveTab(FIRST_TAB);
     }
 }
 
@@ -43,6 +47,7 @@ class GameFieldSize extends React.Component {
 GameFieldSize.propTypes = {
     changeGameFieldSize: PropTypes.func.isRequired,
     zeroCountAttempts: PropTypes.func.isRequired,
+    setActiveTab: PropTypes.func.isRequired,
 };
 
-export default connect(null, {changeGameFieldSize, zeroCountAttempts})(GameFieldSize);
+export default connect(null, {changeGameFieldSize, zeroCountAttempts, setActiveTab})(GameFieldSize);

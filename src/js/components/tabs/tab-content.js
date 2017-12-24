@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {connect} from "react-redux";
 
-export default class TabContent extends React.Component {
+class TabContent extends React.Component {
 
     render() {
 
         let className = "tab-content";
-        if (!this.props.active) {
+        if (this.props.activeTab !== this.props.tabId) {
             className += " no-display";
         }
 
@@ -23,11 +24,10 @@ export default class TabContent extends React.Component {
 
 
 TabContent.propTypes = {
+    activeTab: PropTypes.number.isRequired,      // Номер активной вкладки в данный момент
     tabId: PropTypes.number.isRequired,     // Id вкладки, которую отображает данный элемент
-    active: PropTypes.bool                  // Видимый ли элемент
 };
 
-TabContent.defaultProps = {
-    tabId: null,
-    active: false
-};
+export default connect(store => {
+    return {activeTab: store.activeTab};
+})(TabContent);

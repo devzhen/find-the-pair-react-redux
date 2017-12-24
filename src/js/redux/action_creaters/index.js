@@ -1,7 +1,17 @@
 import {
-    CHANGE_GAME_FIELD_SIZE, FINISH_GAME, INCREASE_COUNT_ATTEMPTS, NEW_GAME, PAUSE_GAME, SET_GAME_TIME, START_GAME,
-    STOP_GAME, ZERO_COUNT_ATTEMPTS
+    CHANGE_GAME_FIELD_SIZE, FINISH_GAME, INCREASE_COUNT_ATTEMPTS, NEW_GAME, PAUSE_GAME, SET_ACTIVE_TAB,
+    SET_GAME_TIME, START_GAME, STOP_GAME, ZERO_COUNT_ATTEMPTS
 } from "../../constants";
+
+
+export function setActiveTab(tab) {
+    return {
+        type: SET_ACTIVE_TAB,
+        payload: {
+            activeTab: tab
+        }
+    }
+}
 
 
 export function startNewGame() {
