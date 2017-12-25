@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from "react-redux";
-import {pauseGame, stopGame, finishGame, startNewGame} from "../../redux/action_creaters";
+import {finishGame, pauseGame, startNewGame, stopGame, zeroCountAttempts, clearIsFinished} from "../../redux/action_creaters";
 import GameTimer from "./game-timer";
 import GameAttempts from "./game-attempts";
 
@@ -69,6 +69,10 @@ class GameFieldControls extends React.Component {
      */
     [buttonRestartClickHandler]() {
         this.props.stopGame();
+        this.props.zeroCountAttempts();
+        if (this.props.isGameFinished) {
+            this.props.clearIsFinished();
+        }
         this.props.startNewGame();
     }
 }
@@ -88,4 +92,4 @@ export default connect((store) => {
         isGameStarted: store.isGameStarted,
         isGameFinished: store.isGameFinished,
     }
-}, {pauseGame, stopGame, finishGame, startNewGame})(GameFieldControls);
+}, {pauseGame, stopGame, finishGame, startNewGame, zeroCountAttempts, clearIsFinished})(GameFieldControls);

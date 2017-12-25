@@ -1,5 +1,6 @@
 import {
-    CHANGE_GAME_FIELD_SIZE, FINISH_GAME, INCREASE_COUNT_ATTEMPTS, NEW_GAME, PAUSE_GAME, SET_ACTIVE_TAB, SET_CELLS_COLOR,
+    CHANGE_GAME_FIELD_SIZE, CLEAR_IS_FINISHED, FINISH_GAME, INCREASE_COUNT_ATTEMPTS, NEW_GAME, PAUSE_GAME,
+    SET_ACTIVE_TAB, SET_CELLS_COLOR,
     SET_GAME_TIME, SET_RECORDS_ACTIVE_TAB, SET_WINDOW_COLOR, START_GAME, STOP_GAME, ZERO_COUNT_ATTEMPTS
 } from "../../constants";
 
@@ -42,6 +43,12 @@ export function stopGame() {
 export function finishGame() {
     return {
         type: FINISH_GAME
+    }
+}
+
+export function clearIsFinished() {
+    return {
+        type: CLEAR_IS_FINISHED
     }
 }
 
