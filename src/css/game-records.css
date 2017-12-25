@@ -1,0 +1,52 @@
+.game-records {
+    display: -ms-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    width: 100%;
+    height: 90%;
+    padding: 10px;
+}
+
+.game-records-tab-list {
+    display: -ms-flex;
+    display: flex;
+    align-content: center;
+    height: 10%;
+    width: 70%;
+}
+
+.game-records-tab-list a {
+    -ms-flex: 100 1 auto;
+    flex: 100 1 auto;
+
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+
+    padding: 10px;
+    border: thin solid black;
+    text-align: center;
+    text-decoration: none;
+    color: black;
+    box-shadow: 0 0 10px grey;
+}
+
+.game-records-tab-list a.active {
+    background-color: lightgray;
+}
+
+.game-records-tab-content {
+    display: -ms-flex;
+    display: flex;
+    padding: 20px;
+}

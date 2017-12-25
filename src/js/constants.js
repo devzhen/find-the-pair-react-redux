@@ -1,4 +1,7 @@
 export const FIRST_TAB = 1;
+export const SECOND_TAB = 2;
+export const THIRD_TAB = 3;
+export const FOURTH_TAB = 4;
 export const SET_ACTIVE_TAB = "SET_ACTIVE_TAB";
 export const NEW_GAME = "NEW_GAME";
 export const PAUSE_GAME = "PAUSE_GAME";

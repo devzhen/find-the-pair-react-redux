@@ -9,7 +9,7 @@ export function cellsColorScheme(color = cellsColor, action) {
     if (action.type === SET_CELLS_COLOR) {
         switch (action.payload.color) {
             case "green":
-                return "#2de218";
+                return "#1ACE19";
             case "blue":
                 return "#110de2";
             case "orange":

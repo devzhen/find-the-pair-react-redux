@@ -21,43 +21,13 @@ export default class LocalStorageManager {
 
 
     /**
-     * Получить сохраненные результаты из local storage
-     * @return {Array}. Массив результатов.
-     */
-    static getAllGameResults() {
-
-        let objects = [];
-
-        /*Перебрать объекты local storage*/
-        for (let i = 0; i < localStorage.length; i++) {
-
-            let result = localStorage.getItem(localStorage.key(i));
-
-            /*Разбить строку с помощью разделителя #*/
-            result = result.split('#');
-
-            /*Сформировать результат игры в виде объекта*/
-            let obj = {
-                name: result[0],
-                date: parseFloat(result[1]),
-                points: parseFloat(result[2]),
-            };
-
-            objects.push(obj);
-        }
-
-        return objects;
-    }
-
-
-    /**
      * Получить сохраненные результаты из local storage,
      * но только соотв-ие размеру size.
      * @param size {String}
      */
-    static getGameResultBySize(size) {
+    static getGameRecordBySize(size) {
 
-        let objects = [];
+        let gameResults = [];
 
         /*Перебрать объекты local storage*/
         for (let i = 0; i < localStorage.length; i++) {
@@ -76,11 +46,28 @@ export default class LocalStorageManager {
             };
 
             if (obj.size === size) {
-                objects.push(obj);
+                gameResults.push(obj);
             }
 
         }
 
-        return objects;
+        /*Найти максимальный результат*/
+        if (gameResults.length === 0) {
+            return null;
+        }
+
+        if (gameResults.length === 1) {
+            return gameResults[0];
+        }
+
+        let record = gameResults[0];
+
+        for (let i = 1; i < gameResults.length; i++) {
+            if (gameResults[i].points > record.points) {
+                record = gameResults[i];
+            }
+
+        }
+        return record;
     }
 }

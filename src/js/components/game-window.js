@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from "react-redux";
-import TabList from "./tabs/tab-list";
-import Tab from "./tabs/tab";
-import TabContent from "./tabs/tab-content";
+import TabList from "./game-tabs/tab-list";
+import Tab from "./game-tabs/tab";
+import TabContent from "./game-tabs/tab-content";
 import GameFieldPanel from "./game-field/game-field-panel";
-import GameConfig from "./game-config/game-config";
+import GameConfig from "./game-config/game-config-panel";
 import GameFieldSize from "./game-config/game-field-size";
 import GameColorScheme from "./game-config/game-color-scheme";
+import GameRecordsPanel from "./game-records/game-records-panel";
 
 
 class GameWindow extends React.Component {
@@ -16,15 +17,19 @@ class GameWindow extends React.Component {
 
         return (
             <div className="tabbed-window"
-                 style={{width: this.props.width + 'px', height: this.props.height + 'px', backgroundColor: this.props.color}}>
+                 style={{
+                     width: this.props.width + 'px',
+                     height: this.props.height + 'px',
+                     backgroundColor: this.props.color
+                 }}>
 
                 <TabList>
-                    <Tab id={1} textContent="Game" active/>
+                    <Tab id={1} textContent="Game"/>
                     <Tab id={2} textContent="Config"/>
                     <Tab id={3} textContent="Records"/>
                 </TabList>
 
-                <TabContent tabId={1} active>
+                <TabContent tabId={1}>
                     <GameFieldPanel/>
                 </TabContent>
 
@@ -35,7 +40,9 @@ class GameWindow extends React.Component {
                     </GameConfig>
                 </TabContent>
 
-                <TabContent tabId={3}>Records</TabContent>
+                <TabContent tabId={3}>
+                    <GameRecordsPanel/>
+                </TabContent>
 
             </div>
         );
