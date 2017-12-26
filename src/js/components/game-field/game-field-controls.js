@@ -106,11 +106,12 @@ GameFieldControls.propTypes = {
     clearIsFinished: PropTypes.func.isRequired,     // Очистить статус игры - 'завершена'
 };
 
-export default connect((store) => {
+export default connect((state) => {
+
     return {
-        gameConfig: store.gameConfig,
-        isGameOnPause: store.isGameOnPause,
-        isGameStarted: store.isGameStarted,
-        isGameFinished: store.isGameFinished,
+        gameConfig: state.gameConfig,
+        isGameOnPause: state.isGameOnPause,
+        isGameStarted: state.isGameStarted,
+        isGameFinished: state.isGameFinished,
     }
 }, {pauseGame, stopGame, finishGame, startNewGame, zeroCountAttempts, clearIsFinished})(GameFieldControls);

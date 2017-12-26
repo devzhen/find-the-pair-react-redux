@@ -37,6 +37,12 @@ export default class GameConfigManager {
 
         /*Создать пары изображений и добавить в объект настроек игры.*/
         gameConfig = GameConfigManager.createImagePairs(gameConfig, images);
+
+        /*Проверка, что массив пар изображений не содержит все однаковые изображения*/
+        while(GameConfigManager.isDuplicateImages(gameConfig)) {
+            gameConfig = GameConfigManager.createImagePairs(gameConfig, images);
+        }
+
         gameConfig = GameConfigManager.mixImagePairs(gameConfig);
 
         return gameConfig;
@@ -76,7 +82,7 @@ export default class GameConfigManager {
      * @param config {Object}. Объект настроек игры.
      * @returns {Object}
      */
-    static mixImagePairs(config){
+    static mixImagePairs(config) {
 
         for (let i = 0; i < config.images.length; i++) {
             for (let j = 0; j < config.images[i].length; j++) {
@@ -104,5 +110,28 @@ export default class GameConfigManager {
         let index = Math.floor(Math.random() * images.length);
 
         return images[index];
+    }
+
+
+    /**
+     * Проверка, что массив пар иображений не содержит одинаковые изображения
+     * @param config {object}
+     * @returns {boolean}
+     */
+    static isDuplicateImages(config) {
+
+        let refImage = config.images[0][0];
+
+        for (let i = 0; i < config.images.length; i++) {
+            for (let j = 0; j < config.images[i].length; j++) {
+
+                if (config.images[i][j] !== refImage) {
+                    return false;
+                }
+            }
+        }
+
+
+        return true;
     }
 }

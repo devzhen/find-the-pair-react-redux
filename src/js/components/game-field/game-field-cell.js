@@ -50,6 +50,6 @@ GameFieldCell.propTypes = {
     image: PropTypes.string.isRequired,         // Путь к изображению
 };
 
-export default connect(store => {
-    return {color: store.cellColor};
+export default connect((state) => {
+    return {color: state.cellColor};
 })(GameFieldCell);

@@ -32,6 +32,11 @@ export default function gameConfig(gameConfig = defaultConfig, action) {
         /*Создать пары изображений*/
         gameConfig = GameConfigManager.createImagePairs(gameConfig, images);
 
+        /*Проверка, что массив пар изображений не содержит все однаковые изображения*/
+        while(GameConfigManager.isDuplicateImages(gameConfig)) {
+            gameConfig = GameConfigManager.createImagePairs(gameConfig, images);
+        }
+
         /*Перемешать пары изображений*/
         gameConfig = GameConfigManager.mixImagePairs(gameConfig);
 
