@@ -16,14 +16,16 @@ let images = [
     '../img/teeth.jpg',
 ];
 
+/*Настройки игры по умолчанию*/
 let defaultConfig = GameConfigManager.createGameConfig(images, '2x2');
+
 
 export default function gameConfig(gameConfig = defaultConfig, action) {
 
     if (action.type === NEW_GAME) {
 
         /*Текущий объект с настройками игры*/
-        let gameConfig = action.payload.config;
+        let gameConfig = Object.assign({}, action.payload.config);
 
         gameConfig.id = new Date().getTime();
 
