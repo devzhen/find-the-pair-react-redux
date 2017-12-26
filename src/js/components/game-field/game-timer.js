@@ -6,6 +6,9 @@ import {setGameTime} from "../../redux/action_creaters";
 const convertSecondsToTime = Symbol('convertSecondsToTime');
 
 
+/**
+ * Класс отображает таймер в игре
+ */
 class GameTimer extends React.Component {
 
     constructor(props) {
@@ -144,11 +147,11 @@ class GameTimer extends React.Component {
 
 
 GameTimer.propTypes = {
-    gameConfig: PropTypes.object.isRequired,
-    isGameOnPause: PropTypes.bool.isRequired,    // Находится ли игра в режиме паузы
-    isGameFinished: PropTypes.bool.isRequired,
-    isGameStarted: PropTypes.bool.isRequired,
-    setGameTime: PropTypes.func.isRequired,
+    gameConfig: PropTypes.object.isRequired,        // Настройки игры
+    isGameOnPause: PropTypes.bool.isRequired,       // Находится ли игра в режиме паузы
+    isGameFinished: PropTypes.bool.isRequired,      // Закончена ли игра
+    isGameStarted: PropTypes.bool.isRequired,       // Начата ли игра
+    setGameTime: PropTypes.func.isRequired,         // Установить в store кол-во секунд на таймере
 };
 
 

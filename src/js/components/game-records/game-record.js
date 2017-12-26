@@ -2,16 +2,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import LocalStorageManager from "../../service/local-storage-manager";
 
+/**
+ * Класс отображает игровой рекорд
+ */
 export default class GameRecord extends React.Component {
 
     constructor(props) {
         super(props);
     }
 
+
     render() {
 
         let key = 0;
 
+        /*Нет рекорда игры*/
         let table = React.createElement('table', null, [
             <tbody key={++key}>
                 <tr>
@@ -20,6 +25,7 @@ export default class GameRecord extends React.Component {
             </tbody>
         ]);
 
+        /*Получение рекорда из local storage*/
         let record = LocalStorageManager.getGameRecordBySize(this.props.size);
         if (record !== null) {
 
@@ -48,5 +54,5 @@ export default class GameRecord extends React.Component {
 
 
 GameRecord.propTypes = {
-    size: PropTypes.string.isRequired
+    size: PropTypes.string.isRequired,  // Размер игрового поля
 };

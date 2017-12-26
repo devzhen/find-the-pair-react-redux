@@ -15,9 +15,12 @@ export function setActiveTab(tab) {
 }
 
 
-export function startNewGame() {
+export function startNewGame(config) {
     return {
-        type: NEW_GAME
+        type: NEW_GAME,
+        payload: {
+            config: config
+        }
     }
 }
 

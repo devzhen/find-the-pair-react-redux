@@ -2,7 +2,9 @@ import React from 'react';
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 
-
+/**
+ * Класс отображает строку с ячейками игрового поля
+ */
 class GameFieldRow extends React.Component {
 
     render() {
@@ -16,7 +18,7 @@ class GameFieldRow extends React.Component {
 
 
 GameFieldRow.propTypes = {
-    gameConfig: PropTypes.object.isRequired
+    gameConfig: PropTypes.object.isRequired,    // Настройки игры
 };
 
 export default connect((store) => {

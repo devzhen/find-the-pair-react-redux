@@ -1,9 +1,9 @@
 import ReactDOM from 'react-dom';
 import React from "react";
 
-import GameWindow from "./components/game";
+import Game from "./components/game";
 
 ReactDOM.render(
-    <GameWindow/>,
+    <Game/>,
     document.getElementById('component')
 );

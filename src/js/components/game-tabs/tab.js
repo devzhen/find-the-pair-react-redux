@@ -5,6 +5,9 @@ import {setActiveTab} from "../../redux/action_creaters";
 
 const handleUserClick = Symbol('handleUserClick');
 
+/**
+ * Класс отображает вкладку окна игры
+ */
 class Tab extends React.Component {
 
     constructor(props) {
@@ -37,10 +40,10 @@ class Tab extends React.Component {
 }
 
 Tab.propTypes = {
-    activeTab: PropTypes.number.isRequired,      // Номер активной вкладки в данный момент
-    textContent: PropTypes.string.isRequired,   // текст внутри вкладки
+    activeTab: PropTypes.number.isRequired,     // Номер активной вкладки в данный момент
+    textContent: PropTypes.string.isRequired,   // Текст внутри вкладки
     id: PropTypes.number,                       // id элемента, кот. открывает вкладка
-    setActiveTab: PropTypes.func.isRequired
+    setActiveTab: PropTypes.func.isRequired,    // Установить в store номер активной вкладки
 };
 
 export default connect(store => {

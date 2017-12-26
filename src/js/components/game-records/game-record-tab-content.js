@@ -1,6 +1,10 @@
 import React from 'react';
 import PropTypes from "prop-types";
 
+
+/**
+ * Класс отображает содержимое вкладки окна игровых рекордов
+ */
 export default class GameRecordTabContent extends React.Component {
 
     render() {

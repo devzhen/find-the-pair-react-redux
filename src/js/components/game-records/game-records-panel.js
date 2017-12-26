@@ -6,7 +6,9 @@ import GameRecord from "./game-record";
 
 const handleUserChange = Symbol('handleUserChange');
 
-
+/**
+ * Класс отображает панель игровых рекордов
+ */
 class GameRecordsPanel extends React.Component {
 
     constructor(props) {

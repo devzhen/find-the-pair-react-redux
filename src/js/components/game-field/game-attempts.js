@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 
 import {connect} from "react-redux";
 
+/**
+ * Класс отображает количество вопыток разгадать пары изображений
+ */
 class GameAttempts extends React.Component {
 
     render() {
@@ -18,9 +21,9 @@ class GameAttempts extends React.Component {
 
 
 GameAttempts.propTypes = {
-    countAttempts: PropTypes.number.isRequired,
-    isGameOnPause: PropTypes.bool.isRequired,
-    isGameStarted: PropTypes.bool.isRequired
+    countAttempts: PropTypes.number.isRequired,     // Кол-во попыток
+    isGameOnPause: PropTypes.bool.isRequired,       // Находится ли игра в режиме паузы
+    isGameStarted: PropTypes.bool.isRequired        // Начата ли игра
 };
 
 export default connect((store) => {

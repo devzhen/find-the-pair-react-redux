@@ -1,13 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from "react-redux";
-import {finishGame, pauseGame, startNewGame, stopGame, zeroCountAttempts, clearIsFinished} from "../../redux/action_creaters";
+import {
+    clearIsFinished, finishGame, pauseGame, startNewGame, stopGame,
+    zeroCountAttempts
+} from "../../redux/action_creaters";
 import GameTimer from "./game-timer";
 import GameAttempts from "./game-attempts";
 
 const buttonRestartClickHandler = Symbol('buttonRestartClickHandler');
 const buttonPauseClickHandler = Symbol('buttonPauseClickHandler');
 
+
+/**
+ * Класс отображает панель управления игрой
+ */
 class GameFieldControls extends React.Component {
 
     constructor(props) {
@@ -60,6 +67,7 @@ class GameFieldControls extends React.Component {
             isPaused: value
         });
 
+        /*Поставить игру на паузу*/
         this.props.pauseGame();
     }
 
@@ -68,26 +76,39 @@ class GameFieldControls extends React.Component {
      * Обработчик click события на кнопке Restart
      */
     [buttonRestartClickHandler]() {
+        /*Остановить игру*/
         this.props.stopGame();
+
+        /*Обнулить кол-во попыток в игре*/
         this.props.zeroCountAttempts();
+
+        /*Если игра завершена - очистить статус 'завершена'*/
         if (this.props.isGameFinished) {
             this.props.clearIsFinished();
         }
-        this.props.startNewGame();
+
+        /*Начать новую игру*/
+        this.props.startNewGame(this.props.gameConfig);
     }
 }
 
 
 GameFieldControls.propTypes = {
-    isGameOnPause: PropTypes.bool.isRequired,
-    isGameStarted: PropTypes.bool.isRequired,
-    isGameFinished: PropTypes.bool.isRequired,
-    pauseGame: PropTypes.func.isRequired,
-    startNewGame: PropTypes.func.isRequired,
+    gameConfig: PropTypes.object.isRequired,        // Объект с настройками игры
+    isGameOnPause: PropTypes.bool.isRequired,       // Находится ли игра в режиме паузы
+    isGameStarted: PropTypes.bool.isRequired,       // Начата ли игра
+    isGameFinished: PropTypes.bool.isRequired,      // Завершена ли игра
+    pauseGame: PropTypes.func.isRequired,           // Поставить на паузу
+    startNewGame: PropTypes.func.isRequired,        // Запустить новую игру
+    stopGame: PropTypes.func.isRequired,            // Остановить игру
+    finishGame: PropTypes.func.isRequired,          // Закончить игру
+    zeroCountAttempts: PropTypes.func.isRequired,   // Обнулить кол-во попыток в игре
+    clearIsFinished: PropTypes.func.isRequired,     // Очистить статус игры - 'завершена'
 };
 
 export default connect((store) => {
     return {
+        gameConfig: store.gameConfig,
         isGameOnPause: store.isGameOnPause,
         isGameStarted: store.isGameStarted,
         isGameFinished: store.isGameFinished,

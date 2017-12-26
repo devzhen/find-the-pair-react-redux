@@ -190,12 +190,12 @@ class GameField extends React.Component {
 
 
 GameField.propTypes = {
-    isGameOnPause: PropTypes.bool.isRequired,
-    isGameStarted: PropTypes.bool.isRequired,
-    isGameFinished: PropTypes.bool.isRequired,
-    stopGame: PropTypes.func.isRequired,
-    finishGame: PropTypes.func.isRequired,
-    increaseCountAttempts: PropTypes.func.isRequired,
+    isGameOnPause: PropTypes.bool.isRequired,           // Находится ли игра в режиме паузы
+    isGameStarted: PropTypes.bool.isRequired,           // Начата ли игра
+    isGameFinished: PropTypes.bool.isRequired,          // Закончена ли игра
+    stopGame: PropTypes.func.isRequired,                // Остановить игру
+    finishGame: PropTypes.func.isRequired,              // Закончить игру
+    increaseCountAttempts: PropTypes.func.isRequired,   // Увеличить кол-во попыток разгадать пары изображений
 };
 
 export default connect((store) => {

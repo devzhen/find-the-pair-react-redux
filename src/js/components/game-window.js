@@ -11,6 +11,9 @@ import GameColorScheme from "./game-config/game-color-scheme";
 import GameRecordsPanel from "./game-records/game-records-panel";
 
 
+/**
+ * Класс отображает окно игры
+ */
 class GameWindow extends React.Component {
 
     render() {
@@ -51,7 +54,7 @@ class GameWindow extends React.Component {
 
 
 GameWindow.propTypes = {
-    color: PropTypes.string.isRequired,
+    color: PropTypes.string.isRequired,     // Цвет окна игры
     width: PropTypes.number.isRequired,     // Ширина окна
     height: PropTypes.number.isRequired     // Высота окна
 };

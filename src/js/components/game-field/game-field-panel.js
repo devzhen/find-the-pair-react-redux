@@ -13,6 +13,9 @@ const hideImages = Symbol('hideImages');
 const showImages = Symbol('showImages');
 
 
+/**
+ * Класс отображает панель игрового поля
+ */
 class GameFieldPanel extends React.Component {
 
     constructor(props) {
@@ -37,6 +40,7 @@ class GameFieldPanel extends React.Component {
             </div>
         );
     }
+
 
     componentDidMount() {
 
@@ -64,6 +68,7 @@ class GameFieldPanel extends React.Component {
 
         }, 2000);
     }
+
 
     /**
      * Private method
@@ -115,8 +120,8 @@ class GameFieldPanel extends React.Component {
 
 
 GameFieldPanel.propTypes = {
-    gameConfig: PropTypes.object.isRequired,
-    startGame: PropTypes.func.isRequired,
+    gameConfig: PropTypes.object.isRequired,        // Настройки игры
+    startGame: PropTypes.func.isRequired,           // Начать игру
 };
 
 export default connect((store) => {

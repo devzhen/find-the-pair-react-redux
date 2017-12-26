@@ -9,6 +9,9 @@ const handleUserClick = Symbol('handleUserClick');
 const saveGameResult = Symbol('saveGameResult');
 
 
+/**
+ * Класс отображает ранель сохранения результата игры
+ */
 class GameSaveResult extends React.Component {
 
     constructor(props) {
@@ -81,9 +84,9 @@ class GameSaveResult extends React.Component {
 }
 
 GameSaveResult.propTypes = {
-    gameConfig: PropTypes.object.isRequired,
-    countAttempts: PropTypes.number.isRequired,
-    seconds: PropTypes.number.isRequired,
+    gameConfig: PropTypes.object.isRequired,        // Настройки игры
+    countAttempts: PropTypes.number.isRequired,     // Кол-во попыток разгадать пары изображений
+    seconds: PropTypes.number.isRequired,           // Секунды, потраченные на разгадывание пар изображений
 };
 
 export default connect((store) => {

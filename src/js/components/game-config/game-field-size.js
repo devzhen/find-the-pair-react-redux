@@ -6,6 +6,9 @@ import {FIRST_TAB} from "../../constants";
 
 const handleUserChange = Symbol('handleUserChange');
 
+/**
+ * Класс отображает select выбор размера игрового поля
+ */
 class GameFieldSize extends React.Component {
 
     constructor(props) {
@@ -45,9 +48,9 @@ class GameFieldSize extends React.Component {
 
 
 GameFieldSize.propTypes = {
-    changeGameFieldSize: PropTypes.func.isRequired,
-    zeroCountAttempts: PropTypes.func.isRequired,
-    setActiveTab: PropTypes.func.isRequired,
+    changeGameFieldSize: PropTypes.func.isRequired,     // Изменить размер игрового поля
+    zeroCountAttempts: PropTypes.func.isRequired,       // Обнулить кол-во попыток в игре
+    setActiveTab: PropTypes.func.isRequired,            // Установить активную вкладку окна игры
 };
 
 export default connect(null, {changeGameFieldSize, zeroCountAttempts, setActiveTab})(GameFieldSize);

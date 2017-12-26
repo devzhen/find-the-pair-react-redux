@@ -10,6 +10,7 @@ class GameFieldCell extends React.Component {
     constructor(props) {
         super(props);
 
+        /*Ссылка на изображение*/
         this.image = null;
     }
 
@@ -27,10 +28,17 @@ class GameFieldCell extends React.Component {
         );
     }
 
+    /**
+     * Показать изображение
+     */
     showImage() {
         this.image.classList.remove('no-display');
     }
 
+
+    /**
+     * Спрятать изображение
+     */
     hideImage() {
         this.image.classList.add('no-display');
     }
@@ -38,8 +46,8 @@ class GameFieldCell extends React.Component {
 
 
 GameFieldCell.propTypes = {
-    color: PropTypes.string.isRequired,
-    image: PropTypes.string.isRequired,      // Путь к изображению
+    color: PropTypes.string.isRequired,         // Цвет ячейки игрового поля
+    image: PropTypes.string.isRequired,         // Путь к изображению
 };
 
 export default connect(store => {

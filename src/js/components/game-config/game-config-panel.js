@@ -1,5 +1,8 @@
 import React from "react";
 
+/**
+ * Класс отображает панель настроек игры
+ */
 export default class GameConfig extends React.Component {
 
     render() {
