@@ -2,18 +2,18 @@ import {CHANGE_GAME_FIELD_SIZE, NEW_GAME} from "../../constants";
 import GameConfigManager from "../../service/game-config-manager";
 
 let images = [
-    '../img/bridge.jpg',
-    '../img/bug.jpg',
-    '../img/cat.jpg',
-    '../img/clock.jpg',
-    '../img/dog.jpg',
-    '../img/eye.jpg',
-    '../img/face.jpg',
-    '../img/giraffe.jpg',
-    '../img/horse.jpg',
-    '../img/moto.jpg',
-    '../img/shoes.jpg',
-    '../img/teeth.jpg',
+    './img/bridge.jpg',
+    './img/bug.jpg',
+    './img/cat.jpg',
+    './img/clock.jpg',
+    './img/dog.jpg',
+    './img/eye.jpg',
+    './img/face.jpg',
+    './img/giraffe.jpg',
+    './img/horse.jpg',
+    './img/moto.jpg',
+    './img/shoes.jpg',
+    './img/teeth.jpg',
 ];
 
 /*Настройки игры по умолчанию*/

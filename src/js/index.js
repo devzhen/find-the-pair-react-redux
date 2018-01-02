@@ -1,9 +1,9 @@
 import ReactDOM from 'react-dom';
 import React from "react";
 
-import Game from "./components/game";
+import Root from "./components/root";
 
 ReactDOM.render(
-    <Game/>,
+    <Root/>,
     document.getElementById('component')
 );

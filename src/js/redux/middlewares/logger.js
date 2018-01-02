@@ -4,7 +4,7 @@ export default function (store) {
         
         return function (action) {
 
-            console.log("---", "dispatching", action);
+            // console.log("---", "dispatching", action);
             next(action);
         }
     }

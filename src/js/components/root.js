@@ -4,7 +4,7 @@ import store from "../redux/store";
 import {Provider} from "react-redux";
 import GameWindow from "./game-window";
 
-export default class Game extends React.Component {
+export default class Root extends React.Component {
 
     render() {
         return (
@@ -16,12 +16,12 @@ export default class Game extends React.Component {
 }
 
 
-Game.propTypes = {
+Root.propTypes = {
     width: PropTypes.number.isRequired,     // Ширина окна
     height: PropTypes.number.isRequired     // Высота окна
 };
 
-Game.defaultProps = {
+Root.defaultProps = {
     width: 600,
     height: 400
 };
