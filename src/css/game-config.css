@@ -7,6 +7,11 @@
     margin: 10px;
 }
 
+.game-config select{
+    border-radius: 10px;
+    outline: none;
+}
+
 .game-field-size select{
     width: 30%;
 }
