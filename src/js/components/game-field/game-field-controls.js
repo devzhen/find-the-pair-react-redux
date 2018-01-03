@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from "react-redux";
 import {
-    clearIsFinished, finishGame, pauseGame, startNewGame, stopGame,
+    clearIsFinished, finishGame, pauseGame, resumeGame, startNewGame, stopGame,
     zeroCountAttempts
 } from "../../redux/action_creaters";
 import GameTimer from "./game-timer";
@@ -56,19 +56,29 @@ class GameFieldControls extends React.Component {
         );
     }
 
+
+    componentWillReceiveProps(nextProps) {
+
+        this.setState({isPaused: nextProps.isGameOnPause});
+    }
+
     /**
      * Обработчик click события на кнопке Pause
      */
     [buttonPauseClickHandler]() {
 
-        let value = !this.state.isPaused;
+        let value = this.state.isPaused;
 
         this.setState({
-            isPaused: value
+            isPaused: !value
         });
 
-        /*Поставить игру на паузу*/
-        this.props.pauseGame();
+        if (value) {
+            this.props.resumeGame();
+        } else {
+            /*Поставить игру на паузу*/
+            this.props.pauseGame()
+        }
     }
 
 
@@ -99,6 +109,7 @@ GameFieldControls.propTypes = {
     isGameStarted: PropTypes.bool.isRequired,       // Начата ли игра
     isGameFinished: PropTypes.bool.isRequired,      // Завершена ли игра
     pauseGame: PropTypes.func.isRequired,           // Поставить на паузу
+    resumeGame: PropTypes.func.isRequired,          // Возобновить игру
     startNewGame: PropTypes.func.isRequired,        // Запустить новую игру
     stopGame: PropTypes.func.isRequired,            // Остановить игру
     finishGame: PropTypes.func.isRequired,          // Закончить игру
@@ -114,4 +125,4 @@ export default connect((state) => {
         isGameStarted: state.isGameStarted,
         isGameFinished: state.isGameFinished,
     }
-}, {pauseGame, stopGame, finishGame, startNewGame, zeroCountAttempts, clearIsFinished})(GameFieldControls);
+}, {pauseGame, resumeGame, stopGame, finishGame, startNewGame, zeroCountAttempts, clearIsFinished})(GameFieldControls);

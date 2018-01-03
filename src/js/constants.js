@@ -5,6 +5,7 @@ export const FOURTH_TAB = 4;
 export const SET_ACTIVE_TAB = "SET_ACTIVE_TAB";
 export const NEW_GAME = "NEW_GAME";
 export const PAUSE_GAME = "PAUSE_GAME";
+export const RESUME_GAME = "RESUME_GAME";
 export const START_GAME = "START_GAME";
 export const STOP_GAME = "STOP_GAME";
 export const FINISH_GAME = "FINISH_GAME";

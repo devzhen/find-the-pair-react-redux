@@ -54,6 +54,7 @@ class GameTimer extends React.Component {
      */
     componentWillReceiveProps(nextProps) {
 
+        /*Если новая игра*/
         if (nextProps.gameConfig.id !== this.props.gameConfig.id) {
 
             /*Остановить таймер*/
@@ -68,31 +69,33 @@ class GameTimer extends React.Component {
             setTimeout(function () {
                 self.startTimer();
             }, 2000);
-        }
-    }
 
-
-    /**
-     * Lifecycle method
-     */
-    componentDidUpdate(prevProps, prevState) {
-
-        /*Остановить таймер если игра в режиме паузы*/
-        if (prevProps.isGameOnPause !== this.props.isGameOnPause && this.props.isGameOnPause) {
-            this.stopTimer();
-
-        } else if (prevProps.isGameOnPause !== this.props.isGameOnPause && !this.props.isGameOnPause) {
-            this.startTimer();
+            return;
         }
 
-        /*Остановить таймер если игра окончена*/
-        if (this.props.isGameFinished === true) {
+        /*Если игра окончена*/
+        if (nextProps.isGameFinished) {
 
             /*Остановить таймер*/
             this.stopTimer();
 
             /*Отправить в store количество секунд в игре*/
             this.props.setGameTime(this.seconds);
+
+            return;
+        }
+
+
+        /*Если игра на паузе*/
+        if (nextProps.isGameOnPause && !this.props.isGameOnPause) {
+
+            this.stopTimer();
+        }
+
+        /*Если игра на паузе*/
+        if (!nextProps.isGameOnPause && this.props.isGameOnPause) {
+
+            this.startTimer();
         }
     }
 

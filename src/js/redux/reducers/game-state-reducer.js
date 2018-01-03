@@ -1,10 +1,14 @@
-import {CLEAR_IS_FINISHED, FINISH_GAME, PAUSE_GAME, START_GAME, STOP_GAME} from "../../constants";
+import {CLEAR_IS_FINISHED, FINISH_GAME, PAUSE_GAME, RESUME_GAME, START_GAME, STOP_GAME} from "../../constants";
 
 
 export function isOnPause(isPaused = false, action) {
 
     if (action.type === PAUSE_GAME) {
-        return !isPaused;
+        return true;
+    }
+
+    if (action.type === RESUME_GAME) {
+        return false;
     }
 
     return isPaused;

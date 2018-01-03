@@ -1,7 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from "react-redux";
-import {changeGameFieldSize, zeroCountAttempts, setActiveTab, stopGame} from "../../redux/action_creaters";
+import {
+    changeGameFieldSize, zeroCountAttempts, setActiveTab, stopGame, pauseGame,
+    resumeGame, clearIsFinished
+} from "../../redux/action_creaters";
 import {FIRST_TAB} from "../../constants";
 
 const handleUserChange = Symbol('handleUserChange');
@@ -41,6 +44,16 @@ class GameFieldSize extends React.Component {
         /*Обнулить кол-во попыток в игре*/
         this.props.zeroCountAttempts();
 
+        /*Если игра была поставлена на паузу - удалить этот статус*/
+        if (this.props.isGameOnPause) {
+            this.props.resumeGame();
+        }
+
+        /*Если игра была завершена - очистить статус 'завершена'*/
+        if (this.props.isGameFinished) {
+            this.props.clearIsFinished();
+        }
+
         /*Изменить размер игрового поля*/
         this.props.changeGameFieldSize(e.target.value);
 
@@ -51,10 +64,26 @@ class GameFieldSize extends React.Component {
 
 
 GameFieldSize.propTypes = {
+    isGameOnPause: PropTypes.bool.isRequired,           // Находится ли игра в режиме паузы
+    isGameFinished: PropTypes.bool.isRequired,          // Закончена ли игра
     stopGame: PropTypes.func.isRequired,                // Остановить текущую игру
+    resumeGame: PropTypes.func.isRequired,              // Возобновить игру, если была на паузе
+    clearIsFinished: PropTypes.func.isRequired,         // Очистить статус - игра завершена
     changeGameFieldSize: PropTypes.func.isRequired,     // Изменить размер игрового поля
     zeroCountAttempts: PropTypes.func.isRequired,       // Обнулить кол-во попыток в игре
     setActiveTab: PropTypes.func.isRequired,            // Установить активную вкладку окна игры
 };
 
-export default connect(null, {stopGame, changeGameFieldSize, zeroCountAttempts, setActiveTab})(GameFieldSize);
+export default connect((store) => {
+    return {
+        isGameOnPause: store.isGameOnPause,
+        isGameFinished: store.isGameFinished
+    };
+}, {
+    stopGame,
+    changeGameFieldSize,
+    zeroCountAttempts,
+    setActiveTab,
+    resumeGame,
+    clearIsFinished
+})(GameFieldSize);
