@@ -58,6 +58,7 @@ body {
     display: flex;
     flex-direction: column;
     width: 80%;
+    height: calc(100% - 8px - 8px);
     margin: 8px;
 }
 
@@ -67,11 +68,13 @@ body {
     -ms-flex: 100 1 auto;
     flex: 100 1 auto;
     width: 100%;
+    height: 100%;
 }
 
 .game-field-cell {
     -ms-flex: 100 1 auto;
     flex: 100 1 auto;
+    position: relative;
     border: thin solid black;
     border-radius: 20px;
     cursor: pointer;
@@ -79,9 +82,10 @@ body {
 }
 
 .game-field-cell img {
-    border-radius: 20px;
+    position: absolute;
     height: 100%;
     width: 100%;
+    border-radius: 20px;
     cursor: pointer;
 }
 
@@ -133,9 +137,6 @@ body {
 }
 
 .game-records-tab-list a {
-    -ms-flex: 100 1 auto;
-    flex: 100 1 auto;
-
     display: -ms-flexbox;
     display: -webkit-flex;
     display: flex;
@@ -147,6 +148,9 @@ body {
     -webkit-justify-content: center;
     -ms-flex-pack: center;
     justify-content: center;
+
+    -ms-flex: 100 1 auto;
+    flex: 100 1 auto;
 
     padding: 10px;
     border: thin solid black;

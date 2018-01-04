@@ -20,27 +20,10 @@ class GameFieldCell extends React.Component {
             <div className="game-field-cell"
                  style={{width: this.props.width, height: this.props.height, backgroundColor: this.props.color}}>
 
-                <img src={this.props.image} alt={"half pair"} draggable={false}
-                     ref={(img) => {
-                         this.image = img
-                     }}/>
+                <img src={this.props.image}
+                     alt={"half pair"} draggable={false} />
             </div>
         );
-    }
-
-    /**
-     * Показать изображение
-     */
-    showImage() {
-        this.image.classList.remove('no-display');
-    }
-
-
-    /**
-     * Спрятать изображение
-     */
-    hideImage() {
-        this.image.classList.add('no-display');
     }
 }
 

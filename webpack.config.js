@@ -1,19 +1,23 @@
+// set NODE_ENV=production in console, then - webpack
+
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const webpack = require('webpack');
 
-const DEV_MODE = true;
-console.log('DEVELOPMENT MODE - ' + DEV_MODE);
+const NODE_ENV = process.env.NODE_ENV || "development";
+
+console.log('NODE ENV - ' + NODE_ENV);
 
 let config = {
     entry: [
-        // "babel-polyfill",
+        "babel-polyfill",
         "./src/js/index.js",
     ],
     // devtool: ENV === "dev" ? "source-map" : false,
     output: {
         path: __dirname + "/dist/js",
-        filename: DEV_MODE ? 'find-the-pair.js' : 'find-the-pair.min.js'
+        filename: NODE_ENV === "development" ? 'find-the-pair.js' : 'find-the-pair.min.js'
     },
     module: {
         rules: [
@@ -39,11 +43,14 @@ let config = {
             uglifyOptions: {
                 ecma: 8
             }
+        }),
+        new webpack.DefinePlugin({
+            'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
         })
     ]
 };
 
-if (DEV_MODE) {
+if (NODE_ENV === "development") {
     config.plugins.push(new ExtractTextPlugin("../css/find-the-pair.css"));
 } else {
     config.plugins.push(new ExtractTextPlugin("../css/find-the-pair.min.css"));

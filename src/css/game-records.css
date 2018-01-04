@@ -18,9 +18,6 @@
 }
 
 .game-records-tab-list a {
-    -ms-flex: 100 1 auto;
-    flex: 100 1 auto;
-
     display: -ms-flexbox;
     display: -webkit-flex;
     display: flex;
@@ -32,6 +29,9 @@
     -webkit-justify-content: center;
     -ms-flex-pack: center;
     justify-content: center;
+
+    -ms-flex: 100 1 auto;
+    flex: 100 1 auto;
 
     padding: 10px;
     border: thin solid black;
